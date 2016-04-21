@@ -13,25 +13,31 @@ Revision: 1
 #define BTN0 0					// Button 0 us at pin 0
 #define BTN1 1					// Button 1 is at pin 1
 #define ANALOGIN0 0				// analog input at pin A0
-#define num_samples 50			// sets global number of samples
+#define NUM_SAMPLES 50			// sets global number of samples
+#define OVERFLOW_100Hz 200		// set overflow value for 100Hz
+#define OVERFLOW_500Hz 40		// set overflow value for 500Hz
 
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
-#include <WaveGen.h>
+//#include <WaveGen.h>
 
-// SPI helper functions
+// initialization helper functions
 void Initialize_SPI_Master();
 void Transmit_SPI_Master(int Data);
-void send_to_DAC(uint16_t wave[], uint8_t frequency);
+void GPIO_Initialization();
+void initTimer0();
 
 // general helper functions
-void delay_ms(uint16_t delay);
 void delay_us(uint16_t delay);
-uint16_t volts_to_bits(double voltage);
-void GPIO_Initialization();
+void delay_ms(uint16_t delay);
 uint8_t check_buttons();
-uint16_t freq_to_delay(uint8_t freq);
+
+// Program 2 specific functions
+uint16_t volts_to_bits(double voltage);
+
+// Global Variables
+uint8_t isr_repeat = 0;
 
 int main(void)
 {	
@@ -52,20 +58,31 @@ int main(void)
 
 // sets up SPI system between ATmega328P and slave device(s)
 void Initialize_SPI_Master(){     
-    SPCR = (0<<SPIE) |         //No interrupts
-    (1<<SPE) |             //SPI enabled
+    SPCR = (0<<SPIE) |		//No interrupts
+    (1<<SPE) |				//SPI enabled
     (1<<MSTR) ;             //master
-    SPSR = 0x00;             //clear flags
-    PORTB = 1 << SS;          // make sure SS is high
+    SPSR = 0x00;			//clear flags
+    PORTB = 1 << SS;		// make sure SS is high
 }
+
+// Initializing timer 0 (change OCR0A for freq change!!!!!)
+void initTimer0(){
+	TCCR0A = 0x02;			// timer CTC mode
+	OCR0A = OVERFLOW_100Hz;	// sets counter overflow to 250
+	TCCR0B = 0x02;			// timer clk = system clk / 8 (2MHz)
+	TIFR0 = 0x02;			// Interrupt occurs at OCRF0A overflow 
+	TIMSK0 = 0x02;			// OCRF0A overflow interrupt enabled
+}
+
 
 // initializes GPIO I/O, SPI interface, and interrupts
 void GPIO_Initialization(){
-	DDRB |= (1<<MOSI) | (1<<SCK) | (1<<SS);		// make MOSI, SCK and SS outputs
-	DDRB &= ~(1<<BTN1) | ~(1<<BTN1);			// set buttons as inputs
-	PORTB |= (1<<BTN0) | (1<<BTN1);				// set internal pull-ups on buttons
-	Initialize_SPI_Master();					// initialize SPI interface to DAC
-	sei();										// enable global interrupts 
+	DDRB |= (1<<MOSI) | (1<<SCK) | (1<<SS);	// make MOSI, SCK and SS outputs
+	DDRB &= ~(1<<BTN1) | ~(1<<BTN1);		// set buttons as inputs
+	PORTB |= (1<<BTN0) | (1<<BTN1);			// set internal pull-ups 
+	Initialize_SPI_Master();				// initialize SPI to DAC
+	initTimer0();							// initialize timer0
+	sei();									// enable interrupts 
 }
 
 // returns a true bool if a buttons is pressed
@@ -113,37 +130,14 @@ uint16_t volts_to_bits(double voltage){
 		return bits;					// return 12bit equivalent for DAC
 }
 
-void square_LUT(uint16_t wave[], double top, double bottom, uint8_t duty){
-	for(int i=0; i<num_samples; i++){
-		if(2*i < duty)
-			wave[i] = volts_to_bits(top);
-		else
-			wave[i] = volts_to_bits(bottom);
-	}
-}
+///////////////////////////////////ISR/////////////////////////////////////////
 
-void triangle_LUT(uint16_t wave[], double top, double bottom, uint8_t duty){
-	for(int i=0; i<num_samples; i++){
-		
+// ISR to incrament through wave function LUTs and set frequency 
+ISR(TIMER0_COMPA_vect){
+	if(isr_repeat){
+		// increment wave LUT value
+		isr_repeat = 0;
 	}
+	else
+		isr_repeat = 1;
 }
-
-void sawtooth_LUT(uint16_t wave[], double top, double bottom, uint8_t duty){
-	for(int i=0; i<num_samples; i++){
-		
-	}
-}
-
-void sin_LUT(uint16_t wave[], double offset){
-	for(int i=0; i<num_samples; i++){
-		
-	}
-}
-
-/*
-void send_to_DAC(uint16_t wave[], uint8_t frequency){
-	while(1){
-		Transmit_SPI_Master(wave[i]);
-	}
-}
-*/
