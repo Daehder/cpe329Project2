@@ -9,11 +9,10 @@ Revision: 1
 #define MOSI 3                  // PB pin 3
 #define SCK  5                  // PB pin 5
 #define SS   2                  // PB pin 2
-#define num_samples 50			// sets global number of samples
 
 #include <avr/io.h>
 #include <util/delay.h>
-#include <math.h>
+#include <WaveGen.h>
 
 // SPI helper functions
 void Initialize_SPI_Master(void);
@@ -23,13 +22,6 @@ void Transmit_SPI_Master(int Data);
 void delay_ms(uint16_t delay);
 void delay_us(uint16_t delay);
 uint16_t volts_to_bits(double voltage);
-
-// waveform LUT generating functions
-void square_LUT(uint16_t wave[], double top, double bottom, uint8_t duty);
-void triangle_LUT(uint16_t wave[], double top, double bottom, uint8_t duty);
-void sawtooth_LUT(uint16_t wave[], double top, double bottom, uint8_t duty);
-void sin_LUT(uint16_t wave[], double offset);
-
 
 int main(void)
 {
@@ -90,34 +82,3 @@ void delay_ms(uint16_t delay){
 	}
 }
 
-uint16_t volts_to_bits(double voltage){
-	double bits = ((voltage/5.0)*4096);
-	return bits;
-}
-
-void square_LUT(uint16_t wave[], double top, double bottom, uint8_t duty){
-	for(int i=0; i<num_samples; i++){
-		if(2*i < duty)
-			wave[i] = volts_to_bits(top);
-		else
-			wave[i] = volts_to_bits(bottom);
-	}
-}
-
-void triangle_LUT(uint16_t wave[], double top, double bottom, uint8_t duty){
-	for(int i=0; i<num_samples; i++){
-		
-	}
-}
-
-void sawtooth_LUT(uint16_t wave[], double top, double bottom, uint8_t duty){
-	for(int i=0; i<num_samples; i++){
-		
-	}
-}
-
-void sin_LUT(uint16_t wave[], double offset){
-	for(int i=0; i<num_samples; i++){
-		
-	}
-}
