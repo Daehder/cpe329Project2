@@ -10,9 +10,14 @@ Revision: 1
 #define MOSI 3                  // PB pin 3
 #define SCK  5                  // PB pin 5
 #define SS   2                  // PB pin 2
+#define BTN0 0					// Button 0 us at pin 0
+#define BTN1 1					// Button 1 is at pin 1
+#define ANALOGIN0 0				// analog input at pin A0
+#define num_samples 50			// sets global number of samples
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <avr/interrupt.h>
 #include <WaveGen.h>
 
 // SPI helper functions
@@ -99,3 +104,46 @@ void delay_ms(uint16_t delay){
 	}
 }
 
+// converts input voltage between 0-5V to 12bit number for DAC
+uint16_t volts_to_bits(double voltage){
+	double bits = ((voltage/5.0)*4096);
+	if(bits > 4096)						// if given above 5V return 5V
+		return 4096;
+	else
+		return bits;					// return 12bit equivalent for DAC
+}
+
+void square_LUT(uint16_t wave[], double top, double bottom, uint8_t duty){
+	for(int i=0; i<num_samples; i++){
+		if(2*i < duty)
+			wave[i] = volts_to_bits(top);
+		else
+			wave[i] = volts_to_bits(bottom);
+	}
+}
+
+void triangle_LUT(uint16_t wave[], double top, double bottom, uint8_t duty){
+	for(int i=0; i<num_samples; i++){
+		
+	}
+}
+
+void sawtooth_LUT(uint16_t wave[], double top, double bottom, uint8_t duty){
+	for(int i=0; i<num_samples; i++){
+		
+	}
+}
+
+void sin_LUT(uint16_t wave[], double offset){
+	for(int i=0; i<num_samples; i++){
+		
+	}
+}
+
+/*
+void send_to_DAC(uint16_t wave[], uint8_t frequency){
+	while(1){
+		Transmit_SPI_Master(wave[i]);
+	}
+}
+*/
