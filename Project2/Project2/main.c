@@ -6,6 +6,8 @@ Date: 4/20/2016
 Revision: 1
 */
 
+// I hope this is where we want to be
+
 int num_samples =  50;			// sets global number of samples
 int overflow_100Hz = 200;		// set overflow value for 100Hz
 int overflow_100hz = 40;		// set overflow value for 500Hz
