@@ -15,9 +15,9 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
-extern int num_samples =  50;			// sets global number of samples
-extern int overflow_100Hz = 200;		// set overflow value for 100Hz
-extern int overflow_100hz = 40;		// set overflow value for 500Hz
+extern int num_samples;			// sets global number of samples
+extern int overflow_100Hz;		// set overflow value for 100Hz
+extern int overflow_100hz;		// set overflow value for 500Hz
 
 // initialization helper functions
 void Initialize_SPI_Master();
