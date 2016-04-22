@@ -25,10 +25,10 @@ void make_square_LUT(){
    int duty = NUM_SAMPLES * (double) SQUARE_DUTY/100;
    
    for (i = 0; i < duty; i++)
-      SquareWave[i] = 0xFFF;
+      SquareWave[i] = volts_to_bits(MAX_VOLTAGE);
    
    for ( ; i < NUM_SAMPLES ; i++)
-      SquareWave[i] = 0x000;
+      SquareWave[i] = volts_to_bits(MIN_VOLTAGE);
 }
 
 void make_triangle_LUT(){
@@ -59,10 +59,9 @@ void make_sin_LUT(){
    double increment = 2 * M_PI / NUM_SAMPLES;
    double rad = -increment;
    double ampli = ((double) MAX_VOLTAGE - MIN_VOLTAGE) / 2;
-   // The amplitude/2 is neccessary to compensate for the default amplitude of 2
+   // The amplitude/2 is neccessary to compensate for sin()'s amplitude of 2
    double offset = MIN_VOLTAGE + ampli;
    
-   for (ndx = 0; ndx < NUM_SAMPLES; ndx++){
+   for (ndx = 0; ndx < NUM_SAMPLES; ndx++)
       SinWave[ndx] = volts_to_bits(ampli * sin(rad += increment) + offset);
-   }
 }

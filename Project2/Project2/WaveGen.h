@@ -18,6 +18,7 @@
 
 #include <stdio.h>
 #include <math.h>
+#include "arduinoUtil.h"
 
 uint16_t volts_to_bits(double voltage);
 void make_square_LUT();
