@@ -34,13 +34,13 @@ void make_square_LUT(){
 void make_triangle_LUT(){
    int i;
    int peak = NUM_SAMPLES / 2;
-   double increment = ((double) MAX_VOLTAGE - MIN_VOLTAGE) / peak;
+   double increment = ((double) MAX_VOLTAGE - MIN_VOLTAGE) / (peak);
    double voltage = MIN_VOLTAGE - increment;
    
-   for (i = 0; i < (peak + 1); i++)
+   for (i = 0; i <= (peak); i++)
       TriWave[i] = volts_to_bits(voltage += increment);
    
-   for ( ; i < (NUM_SAMPLES - 1); i++)
+   for ( ; i < (NUM_SAMPLES); i++)
       TriWave[i] = volts_to_bits(voltage -= increment);
 }
 

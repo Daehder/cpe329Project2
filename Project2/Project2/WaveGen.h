@@ -9,7 +9,7 @@
 #ifndef WaveGen_h
 #define WaveGen_h
 
-#define NUM_SAMPLES 50			// sets global number of samples
+#define NUM_SAMPLES 100			// sets global number of samples
 
 #define MAX_VOLTAGE 5 // Volts
 #define MIN_VOLTAGE 0 // Volts
