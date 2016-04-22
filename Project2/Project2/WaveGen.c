@@ -25,10 +25,10 @@ void make_square_LUT(){
    int duty = NUM_SAMPLES * (double) SQUARE_DUTY/100;
    
    for (i = 0; i < duty; i++)
-      SquareWave[i] = volts_to_bits(MAX_VOLTAGE);
+      SquareWave[i] = 0xFFF;
    
    for ( ; i < NUM_SAMPLES ; i++)
-      SquareWave[i] = volts_to_bits(MIN_VOLTAGE);
+      SquareWave[i] = 0x000;
 }
 
 void make_triangle_LUT(){
