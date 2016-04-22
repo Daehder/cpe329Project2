@@ -24,7 +24,7 @@ int main(void)
 	// fill square, sawtooth, triangle, and sine wave LUTs
 	genorate_LUTs();
 
-	while(1){
+	while (1){
 		if(check_buttons())
 			PORTB |= (1<<LED12);
 		else 
@@ -51,7 +51,7 @@ ISR(TIMER0_COMPA_vect){
 	Transmit_SPI_Master(SawWave[LUT_address]);
 	LUT_address++;
 	
-	if(LUT_address>NUM_SAMPLES-1)
+	if (LUT_address>=NUM_SAMPLES)
 		LUT_address = 0;
 }
 
