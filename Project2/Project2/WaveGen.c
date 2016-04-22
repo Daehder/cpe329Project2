@@ -57,17 +57,12 @@ void make_sawtooth_LUT(){
 void make_sin_LUT(){
    int ndx;
    double increment = 2 * M_PI / NUM_SAMPLES;
-   double radian = -increment;
-   double voltage;
-   
-   double amplitude = ((double) MAX_VOLTAGE - MIN_VOLTAGE) / 2;
-   printf("Amplitude is %f\n", amplitude);
+   double rad = -increment;
+   double ampli = ((double) MAX_VOLTAGE - MIN_VOLTAGE) / 2;
    // The amplitude/2 is neccessary to compensate for the default amplitude of 2
-   double offset = MIN_VOLTAGE + amplitude;
+   double offset = MIN_VOLTAGE + ampli;
    
    for (ndx = 0; ndx < NUM_SAMPLES; ndx++){
-//      printf("The voltage is %f\n", (voltage = amplitude * sin(radian += increment) + offset));
-      voltage = amplitude * sin(radian += increment) + offset;
-      SinWave[ndx] = volts_to_bits(voltage);
+      SinWave[ndx] = volts_to_bits(ampli * sin(rad += increment) + offset);
    }
 }
