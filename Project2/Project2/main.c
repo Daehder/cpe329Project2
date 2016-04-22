@@ -153,7 +153,7 @@ ISR(TIMER0_COMPA_vect){
 	Transmit_SPI_Master(SinWave[LUT_address]);
 	LUT_address++;
 	
-	if(LUT_address>NUM_SAMPLES-1)
+	if(LUT_address>=NUM_SAMPLES)
 		LUT_address = 0;
 }
 
