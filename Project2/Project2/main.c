@@ -154,11 +154,8 @@ uint16_t volts_to_bits(double voltage){
 // ISR to incrament through wave function LUTs and set frequency 
 ISR(TIMER0_COMPA_vect){
 	static uint8_t ISR_repeat=0;
-	if(ISR_repeat){
+	
+	if((ISR_repeat = !ISR_repeat))
 		// increment wave LUT value
 		LUT_address++;
-		ISR_repeat = 0;
-	}
-	else
-		ISR_repeat = 1;
 }
