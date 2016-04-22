@@ -59,10 +59,9 @@ void make_sin_LUT(){
    double increment = 2 * M_PI / NUM_SAMPLES;
    double rad = -increment;
    double ampli = ((double) MAX_VOLTAGE - MIN_VOLTAGE) / 2;
-   // The amplitude/2 is neccessary to compensate for the default amplitude of 2
+   // The amplitude/2 is neccessary to compensate for sin()'s amplitude of 2
    double offset = MIN_VOLTAGE + ampli;
    
-   for (ndx = 0; ndx < NUM_SAMPLES; ndx++){
+   for (ndx = 0; ndx < NUM_SAMPLES; ndx++)
       SinWave[ndx] = volts_to_bits(ampli * sin(rad += increment) + offset);
-   }
 }
