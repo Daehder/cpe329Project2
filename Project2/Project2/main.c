@@ -15,8 +15,8 @@ Revision: 1
 #define ANALOGIN0 0				// analog input at pin A0
 #define LED12 7					// On-board LED at PB4 pin12
 #define NUM_SAMPLES 200			// sets global number of samples
-#define OVERFLOW_100Hz 200		// set overflow value for 100Hz
-#define OVERFLOW_500Hz 40		// set overflow value for 500Hz
+#define OVERFLOW_100Hz 100		// set overflow value for 100Hz
+#define OVERFLOW_500Hz 20		// set overflow value for 500Hz
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -150,7 +150,7 @@ uint16_t volts_to_bits(double voltage){
 
 // ISR to increment through wave function LUTs and set frequency 
 ISR(TIMER0_COMPA_vect){
-	Transmit_SPI_Master(SawWave[LUT_address]);
+	Transmit_SPI_Master(SinWave[LUT_address]);
 	LUT_address++;
 	
 	if(LUT_address>NUM_SAMPLES-1)
