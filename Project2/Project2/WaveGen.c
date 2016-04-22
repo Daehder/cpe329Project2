@@ -13,10 +13,12 @@ uint16_t TriWave[NUM_SAMPLES];
 uint16_t SawWave[NUM_SAMPLES];
 uint16_t SinWave[NUM_SAMPLES];
 
+/*
 uint16_t volts_to_bits(double voltage){
    double bits = ((voltage/5.0)*4096);
    return bits;
 }
+*/
 
 void make_square_LUT(){
    int i;

@@ -27,6 +27,7 @@ void Initialize_SPI_Master();
 void Transmit_SPI_Master(int Data);
 void GPIO_Initialization();
 void initTimer0();
+void genorate_LUTs();
 
 // general helper functions
 void delay_us(uint16_t delay);
@@ -37,20 +38,33 @@ uint8_t check_buttons();
 uint16_t volts_to_bits(double voltage);
 
 // Global Variables
-uint8_t isr_repeat = 0;
+uint8_t LUT_address = 0;
+uint16_t square_wave[NUM_SAMPLES];
+uint16_t sawtooth_wave[NUM_SAMPLES];
+uint16_t triangle_wave[NUM_SAMPLES];
+uint16_t sin_wave[NUM_SAMPLES];
 
 int main(void)
 {	
+	// initialize GPIO, interupts, and timers
 	GPIO_Initialization();
 	
+	// fill square, sawtooth, triangle, and sine wave LUTs
+	genorate_LUTs();
+	
+	// stay here forever
     while(1){
 		// send square wave data to DAC
+		Transmit_SPI_Master(square_wave[LUT_address]);
 		while(!(check_buttons()));
 		// send sawtooth wave data to DAC
+		Transmit_SPI_Master(sawtooth_wave[LUT_address]);
 		while(!(check_buttons()));
 		// send triangle wave data to DAC
+		//Transmit_SPI_Master([LUT_address]);
 		while(!(check_buttons()));
 		// send sine wave data to DAC
+		//Transmit_SPI_Master(LUT_address[LUT_address]);
 		while(!(check_buttons()));			
 	}
     return 0;
@@ -83,6 +97,11 @@ void GPIO_Initialization(){
 	Initialize_SPI_Master();				// initialize SPI to DAC
 	initTimer0();							// initialize timer0
 	sei();									// enable interrupts 
+}
+
+// fills all the lookup tables for every wave
+void genorate_LUTs(){
+	
 }
 
 // returns a true bool if a buttons is pressed
@@ -134,10 +153,12 @@ uint16_t volts_to_bits(double voltage){
 
 // ISR to incrament through wave function LUTs and set frequency 
 ISR(TIMER0_COMPA_vect){
-	if(isr_repeat){
+	static uint8_t ISR_repeat=0;
+	if(ISR_repeat){
 		// increment wave LUT value
-		isr_repeat = 0;
+		LUT_address++;
+		ISR_repeat = 0;
 	}
 	else
-		isr_repeat = 1;
+		ISR_repeat = 1;
 }
