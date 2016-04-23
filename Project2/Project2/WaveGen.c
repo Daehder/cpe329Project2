@@ -42,12 +42,12 @@ void nextWave() {
 }
 
 uint16_t nextWavePoint() {
-   static ndx = -1;
+   static int ndx = -1;
    
    ndx++;
    ndx %= NUM_SAMPS;
    
-   return Wave[ndx]
+   return Wave[ndx];
 }
 
 void make_square_LUT(){
