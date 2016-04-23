@@ -9,8 +9,8 @@
 // I hope this is where we want to be
 
 int num_samples =  50;			// sets global number of samples
-int overflow_100Hz = 200;		// set overflow value for 100Hz
-int overflow_100hz = 40;		// set overflow value for 500Hz
+int overflow_100Hz = 100;		// set overflow value for 100Hz
+int overflow_500hz = 20;		// set overflow value for 500Hz
 
 #include "WaveGen.h"
 #include "arduinoUtil.h"
@@ -50,7 +50,7 @@ void genorate_LUTs(){
 
 // ISR to increment through wave function LUTs and set frequency
 ISR(TIMER0_COMPA_vect){
-   Transmit_SPI_Master(SawWave[LUT_address]);
+   Transmit_SPI_Master(SinWave[LUT_address]);
    LUT_address++;
    
    if (LUT_address>=NUM_SAMPLES)
