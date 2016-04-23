@@ -8,19 +8,43 @@
 
 #include "WaveGen.h"
 
+#define NUM_WAVES 4
+
+void make_square_LUT();
+void make_triangle_LUT();
+void make_sawtooth_LUT();
+void make_sin_LUT();
+
 uint16_t SquareWave[num_samples];
 uint16_t TriWave[num_samples];
 uint16_t SawWave[num_samples];
 uint16_t SinWave[num_samples];
 
-uint16_t Wave[num_samples]
+uint16_t *Wave;
 
-/*
-uint16_t volts_to_bits(double voltage){
-   double bits = ((voltage/5.0)*4096);
-   return bits;
+//uint16_t volts_to_bits(double voltage){
+//   double bits = ((voltage/5.0)*4095);
+//   return bits;
+//}
+
+void initWaves() {
+   make_square_LUT();
+   make_triangle_LUT();
+   make_sawtooth_LUT();
+   make_sin_LUT();
+   
+   Wave = SquareWave;
 }
-*/
+
+void nextWave() {
+   static int waveNdx = 0;
+   static uint16_t* waves[NUM_WAVES] = {SquareWave, TriWave, SawWave, SinWave};
+   
+   waveNdx++;
+   waveNdx %= NUM_WAVES;
+   
+   Wave = waves[waveNdx];
+}
 
 void make_square_LUT(){
    int i;
@@ -49,11 +73,10 @@ void make_triangle_LUT(){
 void make_sawtooth_LUT(){
    int ndx;
    double increment = ((double) MAX_VOLTAGE - MIN_VOLTAGE) / (num_samples - 1);
-   double voltage = -increment;
+   double voltage = MIN_VOLTAGE -increment;
    
-   for (ndx = 0; ndx < num_samples; ndx++){
+   for (ndx = 0; ndx < num_samples; ndx++)
       SawWave[ndx] = volts_to_bits(voltage += increment);
-   }
 }
 
 void make_sin_LUT(){

@@ -9,7 +9,7 @@
 #ifndef WaveGen_h
 #define WaveGen_h
 
-//#define NUM_SAMPLES 200			// sets global number of samples
+//#define num_samples 50			// sets global number of samples
 
 #define MAX_VOLTAGE 5 // Volts
 #define MIN_VOLTAGE 0 // Volts
@@ -20,15 +20,9 @@
 #include <math.h>
 #include "arduinoUtil.h"
 
-uint16_t volts_to_bits(double voltage);
-void make_square_LUT();
-void make_triangle_LUT();
-void make_sawtooth_LUT();
-void make_sin_LUT();
+void initWaves();
+void nextWave();
 
-extern uint16_t SquareWave[];
-extern uint16_t TriWave[];
-extern uint16_t SawWave[];
-extern uint16_t SinWave[];
+extern uint16_t *Wave;
 
 #endif /* WaveGen_h */
