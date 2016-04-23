@@ -24,7 +24,8 @@ int main(void)
    GPIO_Initialization();
    
    // fill square, sawtooth, triangle, and sine wave LUTs
-   genorate_LUTs();
+   initWaves();
+   sei();
    
    while (1){
       if(check_buttons())
@@ -36,21 +37,12 @@ int main(void)
    return 0;
 }
 
-// fills all the lookup tables for every wave
-void genorate_LUTs(){
-   make_square_LUT();		// fill square wave LUT
-   make_sawtooth_LUT();	// fill sawtooth wave LUT
-   make_triangle_LUT();	// fill triangle wave LUT
-   make_sin_LUT();			// fill sine wave LUT
-   sei();
-}
-
 ///////////////////////////////////ISR/////////////////////////////////////////
 
 
 // ISR to increment through wave function LUTs and set frequency
 ISR(TIMER0_COMPA_vect){
-   Transmit_SPI_Master(SinWave[LUT_address]);
+   Transmit_SPI_Master(Wave[LUT_address]);
    LUT_address++;
    
    if (LUT_address>=NUM_SAMPLES)
