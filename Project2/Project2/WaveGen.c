@@ -41,6 +41,15 @@ void nextWave() {
    Wave = waves[waveNdx];
 }
 
+uint16_t nextWavePoint() {
+   static ndx = -1;
+   
+   ndx++;
+   ndx %= NUM_SAMPS;
+   
+   return Wave[ndx]
+}
+
 void make_square_LUT(){
    int i;
    int duty = num_samples * (double) SQUARE_DUTY/100;

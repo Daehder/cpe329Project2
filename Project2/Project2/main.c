@@ -38,10 +38,10 @@ int main(void)
 
 // ISR to increment through wave function LUTs and set frequency
 ISR(TIMER0_COMPA_vect){
-   Transmit_SPI_Master(Wave[LUT_address]);
-   LUT_address++;
-   
-   if (LUT_address>=num_samples)
-      LUT_address = 0;
+   Transmit_SPI_Master(nextWavePoint());
+//   LUT_address++;
+//   
+//   if (LUT_address>=num_samples)
+//      LUT_address = 0;
 }
 

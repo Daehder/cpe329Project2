@@ -22,6 +22,7 @@
 
 void initWaves();
 void nextWave();
+uint16_t nextWavePoint();
 
 extern uint16_t *Wave;
 
