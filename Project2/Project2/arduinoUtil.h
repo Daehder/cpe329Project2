@@ -9,7 +9,8 @@
 #ifndef arduinoUtil_h
 
 #define F_CPU 16000000              //define internal CLK speed
-#define LED12 7
+#define LED2 2
+#define NUM_SAMPS 100
 
 
 #define arduinoUtil_h

@@ -11,9 +11,10 @@
 #define MOSI 3                      // PB pin 3
 #define SCK  5                      // PB pin 5
 #define SS   2                      // PB pin 2
-#define BTN0 0                      // Button 0 us at pin 0
-#define BTN1 1                      // Button 1 is at pin 1
-#define ANALOGIN0 0                 // analog input at pin A0
+#define BTN0 7                      // Button 0 
+#define BTN1 6                      // Button 1 
+#define BTN2 5						// Button 2 
+#define LED2 2						// Debug LED at PD2
 
 // sets up SPI system between ATmega328P and slave device(s)
 void Initialize_SPI_Master(){
@@ -37,8 +38,9 @@ void initTimer0(){
 // initializes GPIO I/O, SPI interface, and interrupts
 void GPIO_Initialization(){
    DDRB |= (1<<MOSI) | (1<<SCK) | (1<<SS);	// make MOSI, SCK and SS outputs
-   DDRB &= ~(1<<BTN1) | ~(1<<BTN1);	// set buttons as inputs
-   PORTB |= (1<<BTN0) | (1<<BTN1);	// set internal pull-ups
+   DDRD &= ~(1<<BTN1) | ~(1<<BTN1);	// set buttons as inputs
+   DDRD |= (1<<LED2);				// degub LED is output
+   PORTD |= (1<<BTN0) | (1<<BTN1);	// set internal pull-ups
    Initialize_SPI_Master();			// initialize SPI to DAC
    initTimer0();							// initialize timer0
    sei();									// enable interrupts

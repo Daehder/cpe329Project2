@@ -25,13 +25,9 @@ int main(void)
    
    // fill square, sawtooth, triangle, and sine wave LUTs
    initWaves();
-   sei();
    
    while (1){
-      if(check_buttons())
-         PORTB |= (1<<LED12);
-      else
-         PORTB &= ~(1<<LED12);
+      PORTD |= (1<<LED2);
    }
    
    return 0;
@@ -45,7 +41,7 @@ ISR(TIMER0_COMPA_vect){
    Transmit_SPI_Master(Wave[LUT_address]);
    LUT_address++;
    
-   if (LUT_address>=NUM_SAMPLES)
+   if (LUT_address>=num_samples)
       LUT_address = 0;
 }
 

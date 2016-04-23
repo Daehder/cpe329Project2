@@ -15,17 +15,12 @@ void make_triangle_LUT();
 void make_sawtooth_LUT();
 void make_sin_LUT();
 
-uint16_t SquareWave[num_samples];
-uint16_t TriWave[num_samples];
-uint16_t SawWave[num_samples];
-uint16_t SinWave[num_samples];
+uint16_t SquareWave[NUM_SAMPS];
+uint16_t TriWave[NUM_SAMPS];
+uint16_t SawWave[NUM_SAMPS];
+uint16_t SinWave[NUM_SAMPS];
 
 uint16_t *Wave;
-
-//uint16_t volts_to_bits(double voltage){
-//   double bits = ((voltage/5.0)*4095);
-//   return bits;
-//}
 
 void initWaves() {
    make_square_LUT();
