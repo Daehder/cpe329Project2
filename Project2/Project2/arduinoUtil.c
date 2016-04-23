@@ -8,7 +8,6 @@
 
 #include "arduinoUtil.h"
 
-#define F_CPU 16000000              //define internal CLK speed
 #define MOSI 3                      // PB pin 3
 #define SCK  5                      // PB pin 5
 #define SS   2                      // PB pin 2
@@ -28,7 +27,7 @@ void Initialize_SPI_Master(){
 // Initializing timer 0 (change OCR0A for freq change!!!!!)
 void initTimer0(){
    TCCR0A = 0x02;                   // timer CTC mode
-   OCR0A = OVERFLOW_100Hz;          // sets counter overflow to 250
+   OCR0A = overflow_100Hz;          // sets counter overflow to 250
    TCCR0B = 0x02;                   // timer clk = system clk / 8 (2MHz)
    TIFR0 = 0x02;                    // Interrupt occurs at OCRF0A overflow
    TIMSK0 = 0x02;                   // OCRF0A overflow interrupt enabled
@@ -84,8 +83,8 @@ void delay_ms(uint16_t delay){
 // converts input voltage between 0-5V to 12bit number for DAC
 uint16_t volts_to_bits(double voltage){
    double bits = ((voltage/5.0)*4095);
-   
-   bits %= 4095;
-   
-   return bits;                  // return 12bit equivalent for DAC
+   if(bits>4095)
+		return 4095;
+	else
+	 return bits;                  // return 12bit equivalent for DAC
 }

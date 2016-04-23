@@ -7,6 +7,11 @@
 //
 
 #ifndef arduinoUtil_h
+
+#define F_CPU 16000000              //define internal CLK speed
+#define LED12 7
+
+
 #define arduinoUtil_h
 
 #include <stdio.h>
@@ -17,7 +22,7 @@
 
 extern int num_samples;			// sets global number of samples
 extern int overflow_100Hz;		// set overflow value for 100Hz
-extern int overflow_100hz;		// set overflow value for 500Hz
+extern int overflow_500hz;		// set overflow value for 500Hz
 
 // initialization helper functions
 void Initialize_SPI_Master();

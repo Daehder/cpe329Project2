@@ -50,7 +50,7 @@ void genorate_LUTs(){
 
 // ISR to increment through wave function LUTs and set frequency
 ISR(TIMER0_COMPA_vect){
-   Transmit_SPI_Master(SawWave[LUT_address]);
+   Transmit_SPI_Master(SinWave[LUT_address]);
    LUT_address++;
    
    if (LUT_address>=NUM_SAMPLES)
