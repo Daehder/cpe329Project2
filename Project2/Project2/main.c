@@ -8,7 +8,7 @@
 
 // I hope this is where we want to be
 
-int num_samples =  NUM_SAMPS;			// sets global number of samples
+int num_samples;			// sets global number of samples
 int overflow_100Hz = 200;		// set overflow value for 100Hz
 int overflow_100hz = 40;		// set overflow value for 500Hz
 
@@ -20,6 +20,8 @@ uint8_t LUT_address = 0;
 
 int main(void)
 {
+	num_samples = NUM_SAMPS;
+	
    // initialize GPIO, interrupts, and timers
    GPIO_Initialization();
    
