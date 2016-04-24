@@ -16,7 +16,7 @@ int overflow_100hz = 40;		// set overflow value for 500Hz
 // Global Variables
 uint8_t LUT_address = 0;
 int num_samples;	// sets global number of samples
-uint8_t overflow = 255;	// set overflow value for 100Hz
+uint8_t overflow = 1;	// set overflow value for 100Hz
 
 int main(void)
 {
@@ -30,7 +30,7 @@ int main(void)
    
    while (1){
 	   if(check_buttons())
-			nextWave();
+			change_freq();
 		//else if(check_buttons())
 			//change_freq();
    }

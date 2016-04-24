@@ -55,14 +55,16 @@ uint8_t check_buttons(){
 		_delay_ms(DEBOUNCE);
       return 1;
    }
+ /*
    else if(!(PIND & (1<<BTN1))){    // return 2 if button at pin6 is pressed
-		_delay_ms(DEBOUNCE);
+		//_delay_ms(DEBOUNCE);
       return 2;
    }
 	else if(!(PIND & (1<<BTN2))){ 
       return 3;                     // return 3 if buttons at pin5 pressed
-	  _delay_ms(DEBOUNCE);
+	  //_delay_ms(DEBOUNCE);
 	}
+	*/
 	else
 		return 0;
 }
