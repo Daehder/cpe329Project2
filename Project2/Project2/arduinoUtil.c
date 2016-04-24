@@ -50,11 +50,11 @@ void GPIO_Initialization(){
 // returns a true bool if a buttons is pressed
 uint8_t check_buttons(){
    if (!(PIND & (1<<BTN0))){          // return 1 if button at pin0 is pressed
-		_delay_ms(DEBOUNCE);
+		//_delay_ms(DEBOUNCE);
       return 1;
    }
    else if(!(PIND & (1<<BTN1))){    // return 2 if button at pin1 is pressed
-		_delay_ms(DEBOUNCE);
+		//_delay_ms(DEBOUNCE);
       return 2;
    }
    else
