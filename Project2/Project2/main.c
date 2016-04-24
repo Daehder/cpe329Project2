@@ -56,8 +56,6 @@ ISR(TIMER0_COMPA_vect){
 }
 
 ISR(TIMER2_COMPA_vect){
-  PORTD |= (1<<LED3);  
-  
    if (!(PIND & 1 << BTN0))
       btn0++;
    else
@@ -81,15 +79,19 @@ ISR(TIMER2_COMPA_vect){
    }
    
    if(btn1 >= DEBOUNCE) {
-      if (!was1Pressed)
+      if (!was1Pressed) {
+         PORTD &= ~(1<<LED3);
          change_freq();
+      }
       btn1 = 0;
       was1Pressed = 1;
    }
    
    if(btn2 >= DEBOUNCE) {
-      if (!was2Pressed)
+      if (!was2Pressed) {
+         PORTD |= (1<<LED3);
          cycleDuty();
+      }
       btn2 = 0;
       was2Pressed = 1;
    }
