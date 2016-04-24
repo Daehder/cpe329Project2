@@ -8,22 +8,16 @@
 
 #include "arduinoUtil.h"
 
-#define MOSI 3                      // PB pin 3
-#define SCK  5                      // PB pin 5
-#define SS   2                      // PB pin 2
-#define LED2 2						// Debug LED at PD2
-#define LED3 3						// Debug LED at PD3
-//#define DEBOUNCE 10
-
-#define OVERFLOW_100HZ 135 //done
-#define OVERFLOW_200HZ 67 //
-#define OVERFLOW_300HZ 90 // done
-#define OVERFLOW_400HZ 67 //
-#define OVERFLOW_500HZ 1 //done
-
 int sampleDivider = 1;
 
 // sets up SPI system between ATmega328P and slave device(s)
+void Initialize_ADC0(void)
+{
+	ADCSRA = 0x87;	//Turn On ADC and set prescaler (CLK/128)
+	ADCSRB = 0x00;	//turn off autotrigger
+	ADMUX = 0x00;    	//Set ADC channel ADC0
+}
+
 void Initialize_SPI_Master(){
    SPCR = (0<<SPIE) |               // No interrupts
    (1<<SPE) |                       // SPI enabled
@@ -53,12 +47,13 @@ void initTimer2(){
 // initializes GPIO I/O, SPI interface, and interrupts
 void GPIO_Initialization(){
    DDRB |= (1<<MOSI) | (1<<SCK) | (1<<SS);	// make MOSI, SCK and SS outputs
-   DDRD &= ~(1<<BTN1) | ~(1<<BTN1) | ~(1<<BTN2);	// set buttons as inputs
+   DDRD &= ~(1<<BTN1) | ~(1<<BTN1) | ~(1<<BTN2) | ~(1<<SW1);	// set buttons & switches as inputs
    DDRD |= (1<<LED2) | (1<<LED3);				// debug LEDs are output
    PORTD |= (1<<BTN0) | (1<<BTN1) | (1<<BTN2);	// set internal pull-ups
    Initialize_SPI_Master();			// initialize SPI to DAC
    initTimer0();							// initialize timer0
    initTimer2();
+   Initialize_ADC0();
    sei();									// enable interrupts
 }
 
@@ -162,4 +157,3 @@ void cycleFreq() {
    }
    OCR0A = overflow0;
 }
-

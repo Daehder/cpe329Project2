@@ -10,16 +10,35 @@
 
 #define arduinoUtil_h
 
+// Hardware CPU clock speed
 #define F_CPU 16000000              //define internal CLK speed
+
+// SPI pin locations
+#define MOSI 3                      // PB pin 3
+#define SCK  5                      // PB pin 5
+#define SS   2                      // PB pin 2
+
+// Debug LED pin Locations
 #define LED2 2
 #define LED3 3
-#define NUM_SAMPS 146
 
+// Input pin locations
 #define BTN0 7                      // Button 0
 #define BTN1 6                      // Button 1
 #define BTN2 5						// Button 2
+#define SW1 4						// switch 0
+#define POT0 0						// Potentiometer 
 
+// non changing values
+#define NUM_SAMPS 146
 #define DEBOUNCE 10
+
+// Standard frequency values needed for overflow
+#define OVERFLOW_100HZ 135 //done
+#define OVERFLOW_200HZ 67 //done
+#define OVERFLOW_300HZ 90 // done
+#define OVERFLOW_400HZ 67 //done
+#define OVERFLOW_500HZ 10 //done
 
 #include <stdio.h>
 

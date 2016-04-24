@@ -34,6 +34,11 @@ int main(void)
    initWaves();
    
    while (1){
+	   if(PIND & (1<<SW1))
+		PORTD |= (1<<LED2);
+		else
+			PORTD &= ~(1<<LED2);
+	   
 	  // if(check_buttons()==1)
 			//nextWave();
 		//else if(check_buttons()==2)
@@ -47,7 +52,7 @@ int main(void)
 // ISR to increment through wave function LUTs and set frequency
 ISR(TIMER0_COMPA_vect){
    Transmit_SPI_Master(nextWavePoint());
-   PORTD |= (1<<LED2);
+   //PORTD |= (1<<LED2);
  
 }
 
