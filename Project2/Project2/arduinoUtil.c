@@ -15,6 +15,7 @@
 #define BTN1 6                      // Button 1 
 #define BTN2 5						// Button 2 
 #define LED2 2						// Debug LED at PD2
+#define DEBOUNCE 100
 
 // sets up SPI system between ATmega328P and slave device(s)
 void Initialize_SPI_Master(){
@@ -28,7 +29,7 @@ void Initialize_SPI_Master(){
 // Initializing timer 0 (change OCR0A for freq change!!!!!)
 void initTimer0(){
    TCCR0A = 0x02;                   // timer CTC mode
-   OCR0A = overflow_100Hz;          // sets counter overflow to 250
+   OCR0A = overflow;          // sets counter overflow to 250
    TCCR0B = 0x02;                   // timer clk = system clk / 8 (2MHz)
    TIFR0 = 0x02;                    // Interrupt occurs at OCRF0A overflow
    TIMSK0 = 0x02;                   // OCRF0A overflow interrupt enabled
@@ -48,10 +49,14 @@ void GPIO_Initialization(){
 
 // returns a true bool if a buttons is pressed
 uint8_t check_buttons(){
-   if (!(PIND & (1<<BTN0)))          // return 1 if button at pin0 is pressed
+   if (!(PIND & (1<<BTN0))){          // return 1 if button at pin0 is pressed
+		_delay_ms(DEBOUNCE);
       return 1;
-   else if(!(PIND & (1<<BTN1)))     // return 2 if button at pin1 is pressed
+   }
+   else if(!(PIND & (1<<BTN1))){    // return 2 if button at pin1 is pressed
+		_delay_ms(DEBOUNCE);
       return 2;
+   }
    else
       return 0;                     // return 0 if no buttons are pressed
 }
@@ -89,4 +94,12 @@ uint16_t volts_to_bits(double voltage){
 		return 4095;
 	else
 	 return bits;                  // return 12bit equivalent for DAC
+}
+
+void change_freq(){
+	overflow -= 50;
+	if(overflow<50)
+		overflow = 200;
+		
+	OCR0A = overflow;          // sets counter overflow to 250
 }

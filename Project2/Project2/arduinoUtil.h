@@ -22,8 +22,7 @@
 #include <avr/interrupt.h>
 
 extern int num_samples;			// sets global number of samples
-extern int overflow_100Hz;		// set overflow value for 100Hz
-extern int overflow_500hz;		// set overflow value for 500Hz
+extern uint8_t overflow;
 
 // initialization helper functions
 void Initialize_SPI_Master();
@@ -31,6 +30,7 @@ void Transmit_SPI_Master(int Data);
 void GPIO_Initialization();
 void initTimer0();
 void genorate_LUTs();
+void change_freq();
 
 // general helper functions
 void delay_us(uint16_t delay);
