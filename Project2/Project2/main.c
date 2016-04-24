@@ -78,14 +78,14 @@ ISR(TIMER2_COMPA_vect){
    if(btn1 >= DEBOUNCE) {
       if (!was1Pressed)
          change_freq();
-      btn0 = 0;
+      btn1 = 0;
       was1Pressed = 1;
    }
    
    if(btn2 >= DEBOUNCE) {
       if (!was2Pressed)
          cycleDuty();
-      btn0 = 0;
+      btn2 = 0;
       was2Pressed = 1;
    }
 }
