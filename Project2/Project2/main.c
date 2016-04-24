@@ -77,7 +77,7 @@ ISR(TIMER2_COMPA_vect){
    if(btn1 >= DEBOUNCE) {
       if (!was1Pressed) {
          PORTD &= ~(1<<LED3);
-         change_freq();
+         cycleFreq();
       }
       btn1 = 0;
       was1Pressed = 1;

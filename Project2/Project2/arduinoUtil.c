@@ -15,11 +15,11 @@
 #define LED3 3						// Debug LED at PD3
 //#define DEBOUNCE 10
 
-#define OVERFLOW_100HZ 200
-#define OVERFLOW_200HZ 160
-#define OVERFLOW_300HZ 120
-#define OVERFLOW_400HZ 80
-#define OVERFLOW_500HZ 40
+#define OVERFLOW_100HZ 135 //done
+#define OVERFLOW_200HZ 67 //
+#define OVERFLOW_300HZ 90 // done
+#define OVERFLOW_400HZ 67 //
+#define OVERFLOW_500HZ 1 //done
 
 int sampleDivider = 1;
 
@@ -146,19 +146,20 @@ void cycleFreq() {
    }
    else if (overflow0 == OVERFLOW_200HZ) {
       sampleDivider = 2;
-      overflow0 = OVERFLOW_300HZ
+      overflow0 = OVERFLOW_300HZ;
    }
    else if (overflow0 == OVERFLOW_300HZ) {
       sampleDivider = 2;
-      overflow0 = OVERFLOW_400HZ
+      overflow0 = OVERFLOW_400HZ;
    }
    else if (overflow0 == OVERFLOW_400HZ) {
       sampleDivider = 2;
-      overflow0 = OVERFLOW_500HZ
+      overflow0 = OVERFLOW_500HZ;
    }
    else{
       sampleDivider = 1;
-      overflow0 = OVERFLOW_100HZ
+      overflow0 = OVERFLOW_100HZ;
    }
+   OCR0A = overflow0;
 }
 

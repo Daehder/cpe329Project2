@@ -13,7 +13,7 @@
 #define F_CPU 16000000              //define internal CLK speed
 #define LED2 2
 #define LED3 3
-#define NUM_SAMPS 150
+#define NUM_SAMPS 146
 
 #define BTN0 7                      // Button 0
 #define BTN1 6                      // Button 1
@@ -47,5 +47,6 @@ uint8_t check_buttons();
 
 // Program 2 specific functions
 uint16_t volts_to_bits(double voltage);
+void cycleFreq();
 
 #endif /* arduinoUtil_h */
