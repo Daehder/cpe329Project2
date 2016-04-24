@@ -65,24 +65,22 @@ char debounceBtn(int btnLoc) {
 
 // returns a true bool if a buttons is pressed
 uint8_t check_buttons(){
-   static int latch = 0
-   int btnPressed;
-	   if (debounceBtn(BTN0))          // return 1 if button at pin7 is pressed
-		btnPressed = 1;
-	   else if(debounceBtn(BTN1))   // return 2 if button at pin6 is pressed
-		btnPressed = 2;
-	   else if(debounceBtn(BTN2))
-		btnPressed = 3;   
-	   else 
-		btnPressed = 0;                  // return 3 if buttons at pin5 pressed
-	
-   if(btnPressed)
-	latch = 1;
-	else
-	latch = 0;
-	
-	if (latch)
-	return btnPressed;
+   static int wasPressed = 0;
+   int btnPressed = 0;
+   
+   if (debounceBtn(BTN0))           // return 1 if button at pin7 is pressed
+      btnPressed = 1;
+   else if(debounceBtn(BTN1))       // return 2 if button at pin6 is pressed
+      btnPressed = 2;
+   else if(debounceBtn(BTN2))
+      btnPressed = 3;               // return 3 if buttons at pin5 pressed
+   
+   if(btnPressed == wasPressed)
+      return 0;
+   
+   wasPressed = btnPressed;
+   
+   return btnPressed;
 }
 
 // sends data to DAC over SPI data port
