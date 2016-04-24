@@ -14,15 +14,17 @@
 #define MAX_VOLTAGE 5 // Volts
 #define MIN_VOLTAGE 0 // Volts
 
-#define SQUARE_DUTY 50	//%
+//#define NUM_SAMPS 50        // For Erik's testing purposes
+//#define num_samples 50
 
 #include <stdio.h>
 #include <math.h>
-#include "arduinoUtil.h"
+//#include "arduinoUtil.h"
 
 void initWaves();
 void nextWave();
 uint16_t nextWavePoint();
+void cycleDuty();
 
 extern uint16_t *Wave;
 

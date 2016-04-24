@@ -6,14 +6,12 @@
  Revision: 1
  */
 
-// I hope this is where we want to be
+#include "WaveGen.h"
+#include "arduinoUtil.h"
 
 int num_samples;			// sets global number of samples
 int overflow_100Hz = 200;		// set overflow value for 100Hz
 int overflow_100hz = 40;		// set overflow value for 500Hz
-
-#include "WaveGen.h"
-#include "arduinoUtil.h"
 
 // Global Variables
 uint8_t LUT_address = 0;

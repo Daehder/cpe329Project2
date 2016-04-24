@@ -15,12 +15,23 @@ void make_triangle_LUT();
 void make_sawtooth_LUT();
 void make_sin_LUT();
 
+int dutyCycle = 50;  // The Duty cycle of the square wave in percentage,
+                     //  must be between 0 and 100
+
 uint16_t SquareWave[NUM_SAMPS];
 uint16_t TriWave[NUM_SAMPS];
 uint16_t SawWave[NUM_SAMPS];
 uint16_t SinWave[NUM_SAMPS];
 
 uint16_t *Wave;
+
+//uint16_t volts_to_bits(double voltage){
+//   double bits = ((voltage/5.0)*4095);
+//   if(bits>4095)
+//      return 4095;
+//   else
+//      return bits;                  // return 12bit equivalent for DAC
+//}
 
 void initWaves() {
    make_square_LUT();
@@ -42,17 +53,23 @@ void nextWave() {
 }
 
 uint16_t nextWavePoint() {
-   static ndx = -1;
+   static int ndx = -1;
    
    ndx++;
    ndx %= NUM_SAMPS;
    
-   return Wave[ndx]
+   return Wave[ndx];
+}
+
+void cycleDuty() {
+   dutyCycle += 10;
+   dutyCycle %= 110;
+   make_square_LUT();
 }
 
 void make_square_LUT(){
    int i;
-   int duty = num_samples * (double) SQUARE_DUTY/100;
+   int duty = num_samples * (double) dutyCycle/100;
    
    for (i = 0; i < duty; i++)
       SquareWave[i] = volts_to_bits(MAX_VOLTAGE);
