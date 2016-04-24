@@ -41,9 +41,9 @@ void initTimer0(){
 // initializes GPIO I/O, SPI interface, and interrupts
 void GPIO_Initialization(){
    DDRB |= (1<<MOSI) | (1<<SCK) | (1<<SS);	// make MOSI, SCK and SS outputs
-   DDRD &= ~(1<<BTN1) | ~(1<<BTN1);	// set buttons as inputs
+   DDRD &= ~(1<<BTN1) | ~(1<<BTN1) | ~(1<<BTN2);	// set buttons as inputs
    DDRD |= (1<<LED2);				// degub LED is output
-   PORTD |= (1<<BTN0) | (1<<BTN1);	// set internal pull-ups
+   PORTD |= (1<<BTN0) | (1<<BTN1) | (1<<BTN2);	// set internal pull-ups
    Initialize_SPI_Master();			// initialize SPI to DAC
    initTimer0();							// initialize timer0
    sei();									// enable interrupts
