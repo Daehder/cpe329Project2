@@ -23,7 +23,8 @@
 
 extern int num_samples;			// sets global number of samples
 extern int sampleDivider;
-extern uint8_t overflow;
+extern uint8_t overflow1;
+extern uint8_t overflow2;  
 
 // initialization helper functions
 void Initialize_SPI_Master();

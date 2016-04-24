@@ -9,14 +9,11 @@
 #include "WaveGen.h"
 #include "arduinoUtil.h"
 
-int num_samples;			// sets global number of samples
-int overflow_100Hz = 200;		// set overflow value for 100Hz
-int overflow_100hz = 40;		// set overflow value for 500Hz
-
 // Global Variables
 uint8_t LUT_address = 0;
 int num_samples;	// sets global number of samples
-uint8_t overflow = 1;	// set overflow value for 100Hz
+uint8_t overflow1 = 1;	// set overflow value frequency change
+uint8_t overflow2 = 63;	// set overflow value for button checking
 
 int main(void)
 {
@@ -29,10 +26,10 @@ int main(void)
    initWaves();
    
    while (1){
-	   if(check_buttons())
+	   if(check_buttons()==1)
 			nextWave();
-		//else if(check_buttons())
-			//change_freq();
+		else if(check_buttons()==2)
+			change_freq();
    }
    return 0;
 }
