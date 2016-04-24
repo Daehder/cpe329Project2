@@ -77,6 +77,7 @@ uint8_t check_buttons(){
       return 3;                     // return 3 if buttons at pin5 pressed
 //	  _delay_ms(DEBOUNCE);
 	}
+	*/
 	else
 		return 0;
 }

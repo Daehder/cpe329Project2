@@ -10,7 +10,7 @@
 
 #define F_CPU 16000000              //define internal CLK speed
 #define LED2 2
-#define NUM_SAMPS 75
+#define NUM_SAMPS 150
 
 
 #define arduinoUtil_h
@@ -22,7 +22,7 @@
 #include <avr/interrupt.h>
 
 extern int num_samples;			// sets global number of samples
-extern int sampleDivider
+extern int sampleDivider;
 extern uint8_t overflow;
 
 // initialization helper functions

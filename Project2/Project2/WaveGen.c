@@ -56,7 +56,7 @@ void nextWave() {
 uint16_t nextWavePoint() {
    static int ndx = -1;
    
-   ndx += SampleDivider;
+   ndx += sampleDivider;
    ndx %= NUM_SAMPS;
    
    return Wave[ndx];
