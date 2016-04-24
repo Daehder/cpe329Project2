@@ -15,7 +15,7 @@
 #define BTN1 6                      // Button 1 
 #define BTN2 5						// Button 2 
 #define LED2 2						// Debug LED at PD2
-#define DEBOUNCE 100
+#define DEBOUNCE 30
 
 int sampleDivider = 1;
 
@@ -53,33 +53,36 @@ char debounceBtn(int btnLoc) {
    char ones=0, zeroes=0, i;
    
    for(i=0;i<9;i++){
-      if(PIND & 1 << btnLoc) // read pin == 1
+      if(!(PIND & 1 << btnLoc)) // read pin == 1
          ones++;
       else // read pin == 0
          zeroes++;
       
-      _delay_ms(10);
+      _delay_us(DEBOUNCE);
    }
    return ones > zeroes;
 }
 
 // returns a true bool if a buttons is pressed
 uint8_t check_buttons(){
-   if (debounceBtn(BTN0)){          // return 1 if button at pin7 is pressed       !(PIND & (1<<BTN0))
-//		_delay_ms(DEBOUNCE);
-      return 1;
-   }
-   else if(debounceBtn(BTN1)){    // return 2 if button at pin6 is pressed                  !(PIND & (1<<BTN1))
-//		_delay_ms(DEBOUNCE);
-      return 2;
-   }
-	else if(debounceBtn(BTN2)){                          !(PIND & (1<<BTN2))
-      return 3;                     // return 3 if buttons at pin5 pressed
-//	  _delay_ms(DEBOUNCE);
-	}
-	*/
+   static int latch = 0
+   int btnPressed;
+	   if (debounceBtn(BTN0))          // return 1 if button at pin7 is pressed
+		btnPressed = 1;
+	   else if(debounceBtn(BTN1))   // return 2 if button at pin6 is pressed
+		btnPressed = 2;
+	   else if(debounceBtn(BTN2))
+		btnPressed = 3;   
+	   else 
+		btnPressed = 0;                  // return 3 if buttons at pin5 pressed
+	
+   if(btnPressed)
+	latch = 1;
 	else
-		return 0;
+	latch = 0;
+	
+	if (latch)
+	return btnPressed;
 }
 
 // sends data to DAC over SPI data port

@@ -30,7 +30,7 @@ int main(void)
    
    while (1){
 	   if(check_buttons())
-			change_freq();
+			nextWave();
 		//else if(check_buttons())
 			//change_freq();
    }
