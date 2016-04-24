@@ -22,6 +22,7 @@
 #include <avr/interrupt.h>
 
 extern int num_samples;			// sets global number of samples
+extern int sampleDivider
 extern uint8_t overflow;
 
 // initialization helper functions

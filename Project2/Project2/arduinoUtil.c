@@ -17,6 +17,8 @@
 #define LED2 2						// Debug LED at PD2
 #define DEBOUNCE 100
 
+int sampleDivider = 1;
+
 // sets up SPI system between ATmega328P and slave device(s)
 void Initialize_SPI_Master(){
    SPCR = (0<<SPIE) |               // No interrupts
@@ -101,9 +103,11 @@ uint16_t volts_to_bits(double voltage){
 }
 
 void change_freq(){
-	overflow -= 50;
-	if(overflow<50)
-		overflow = 200;
-		
-	OCR0A = overflow;          // sets counter overflow to 250
+//	overflow -= 50;
+//	if(overflow<50)
+//		overflow = 200;
+//		
+//	OCR0A = overflow;          // sets counter overflow to 250
+   sampleDivider++;
+   sampleDivider %= 3;
 }
