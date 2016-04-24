@@ -8,12 +8,18 @@
 
 #ifndef arduinoUtil_h
 
+#define arduinoUtil_h
+
 #define F_CPU 16000000              //define internal CLK speed
 #define LED2 2
+#define LED3 3
 #define NUM_SAMPS 150
 
+#define BTN0 7                      // Button 0
+#define BTN1 6                      // Button 1
+#define BTN2 5						// Button 2
 
-#define arduinoUtil_h
+#define DEBOUNCE 10
 
 #include <stdio.h>
 
