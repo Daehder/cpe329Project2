@@ -24,7 +24,7 @@ int was2Pressed = 0;
 // Global Variables
 uint8_t LUT_address = 0;
 int num_samples;	// sets global number of samples
-uint8_t overflow1 = 1;	// set overflow value frequency change
+uint8_t overflow0 = 1;	// set overflow value frequency change
 uint8_t overflow2 = 63;	// set overflow value for button checking
 
 int main(void)

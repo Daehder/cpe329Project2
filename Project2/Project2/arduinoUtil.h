@@ -29,7 +29,7 @@
 
 extern int num_samples;			// sets global number of samples
 extern int sampleDivider;
-extern uint8_t overflow1;
+extern uint8_t overflow0;
 extern uint8_t overflow2;  
 
 // initialization helper functions

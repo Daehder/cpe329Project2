@@ -15,6 +15,12 @@
 #define LED3 3						// Debug LED at PD3
 //#define DEBOUNCE 10
 
+#define OVERFLOW_100HZ 200
+#define OVERFLOW_200HZ 160
+#define OVERFLOW_300HZ 120
+#define OVERFLOW_400HZ 80
+#define OVERFLOW_500HZ 40
+
 int sampleDivider = 1;
 
 // sets up SPI system between ATmega328P and slave device(s)
@@ -29,7 +35,7 @@ void Initialize_SPI_Master(){
 // Initializing timer 0 (change OCR0A for freq change!!!!!)
 void initTimer0(){
    TCCR0A = 0x02;                   // timer CTC mode
-   OCR0A = overflow1;          // sets counter overflow
+   OCR0A = overflow0;          // sets counter overflow
    TCCR0B = 0x02;                   // timer clk = system clk / 8 (2MHz)
    TIFR0 = 0x02;                    // Interrupt occurs at OCRF0A overflow
    TIMSK0 = 0x02;                   // OCRF0A overflow interrupt enabled
@@ -132,3 +138,27 @@ void change_freq(){
    sampleDivider++;
    sampleDivider %= 3;
 }
+
+void cycleFreq() {
+   if (overflow0 == OVERFLOW_100HZ){
+      sampleDivider = 1;
+      overflow0 = OVERFLOW_200HZ;
+   }
+   else if (overflow0 == OVERFLOW_200HZ) {
+      sampleDivider = 2;
+      overflow0 = OVERFLOW_300HZ
+   }
+   else if (overflow0 == OVERFLOW_300HZ) {
+      sampleDivider = 2;
+      overflow0 = OVERFLOW_400HZ
+   }
+   else if (overflow0 == OVERFLOW_400HZ) {
+      sampleDivider = 2;
+      overflow0 = OVERFLOW_500HZ
+   }
+   else{
+      sampleDivider = 1;
+      overflow0 = OVERFLOW_100HZ
+   }
+}
+
