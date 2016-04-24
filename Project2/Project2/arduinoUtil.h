@@ -10,7 +10,7 @@
 
 #define F_CPU 16000000              //define internal CLK speed
 #define LED2 2
-#define NUM_SAMPS 100
+#define NUM_SAMPS 150
 
 
 #define arduinoUtil_h
