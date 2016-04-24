@@ -17,6 +17,7 @@ void make_sin_LUT();
 
 int dutyCycle = 50;  // The Duty cycle of the square wave in percentage,
                      //  must be between 0 and 100
+int _sampleNdx = -1;
 
 uint16_t SquareWave[NUM_SAMPS];
 uint16_t TriWave[NUM_SAMPS];
