@@ -24,7 +24,8 @@ int was2Pressed = 0;
 // Global Variables
 uint8_t LUT_address = 0;
 int num_samples;	// sets global number of samples
-uint8_t overflow = 1;	// set overflow value for 100Hz
+uint8_t overflow1 = 1;	// set overflow value frequency change
+uint8_t overflow2 = 63;	// set overflow value for button checking
 
 int main(void)
 {
@@ -37,10 +38,10 @@ int main(void)
    initWaves();
    
    while (1){
-	   if(check_buttons())
-			nextWave();
-		//else if(check_buttons())
-			//change_freq();
+	  // if(check_buttons()==1)
+			//nextWave();
+		//else if(check_buttons()==2)
+		//	change_freq();
    }
    return 0;
 }
@@ -50,9 +51,13 @@ int main(void)
 // ISR to increment through wave function LUTs and set frequency
 ISR(TIMER0_COMPA_vect){
    Transmit_SPI_Master(nextWavePoint());
+   PORTD |= (1<<LED2);
+ 
 }
 
 ISR(TIMER2_COMPA_vect){
+  PORTD |= (1<<LED3);  
+  
    if (!(PIND & 1 << BTN0))
       btn0++;
    else
@@ -88,5 +93,6 @@ ISR(TIMER2_COMPA_vect){
       btn2 = 0;
       was2Pressed = 1;
    }
+  
 }
 

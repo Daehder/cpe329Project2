@@ -12,6 +12,8 @@
 #define SCK  5                      // PB pin 5
 #define SS   2                      // PB pin 2
 #define LED2 2						// Debug LED at PD2
+#define LED3 3						// Debug LED at PD3
+//#define DEBOUNCE 10
 
 int sampleDivider = 1;
 
@@ -27,10 +29,18 @@ void Initialize_SPI_Master(){
 // Initializing timer 0 (change OCR0A for freq change!!!!!)
 void initTimer0(){
    TCCR0A = 0x02;                   // timer CTC mode
-   OCR0A = overflow;          // sets counter overflow to 250
+   OCR0A = overflow1;          // sets counter overflow
    TCCR0B = 0x02;                   // timer clk = system clk / 8 (2MHz)
    TIFR0 = 0x02;                    // Interrupt occurs at OCRF0A overflow
    TIMSK0 = 0x02;                   // OCRF0A overflow interrupt enabled
+}
+
+void initTimer2(){
+	TCCR2A = 0x02;                   // timer CTC mode
+	OCR2A = overflow2;		        // sets counter overflow
+	TCCR2B = 0x04;                   // timer clk = system clk / 256 (2MHz)
+	TIFR2 = 0x02;                    // Interrupt occurs at OCRF2A overflow
+	TIMSK2 = 0x02;                   // OCRF0A overflow interrupt enabled
 }
 
 
@@ -38,10 +48,11 @@ void initTimer0(){
 void GPIO_Initialization(){
    DDRB |= (1<<MOSI) | (1<<SCK) | (1<<SS);	// make MOSI, SCK and SS outputs
    DDRD &= ~(1<<BTN1) | ~(1<<BTN1) | ~(1<<BTN2);	// set buttons as inputs
-   DDRD |= (1<<LED2);				// degub LED is output
+   DDRD |= (1<<LED2) | (1<<LED3);				// debug LEDs are output
    PORTD |= (1<<BTN0) | (1<<BTN1) | (1<<BTN2);	// set internal pull-ups
    Initialize_SPI_Master();			// initialize SPI to DAC
    initTimer0();							// initialize timer0
+   initTimer2();
    sei();									// enable interrupts
 }
 
@@ -83,11 +94,9 @@ uint8_t check_buttons(){
 void Transmit_SPI_Master(int Data) {
    PORTB &= ~(1 << SS);					//Assert slave select (active low)
    SPDR = ((Data >> 8) & 0xF) | 0x70;		//Attach configuration Bits onto MSB
-   while (!(SPSR & (1<<SPIF)))
-      ;
+   while (!(SPSR & (1<<SPIF)));
    SPDR = 0xFF & Data;
-   while (!(SPSR & (1<<SPIF)))
-      ;
+   while (!(SPSR & (1<<SPIF)));
    PORTB |= 1 << SS;						//Turn off slave select
 }
 

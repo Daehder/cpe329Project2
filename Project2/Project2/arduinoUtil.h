@@ -12,13 +12,14 @@
 
 #define F_CPU 16000000              //define internal CLK speed
 #define LED2 2
+#define LED3 3
 #define NUM_SAMPS 150
 
 #define BTN0 7                      // Button 0
 #define BTN1 6                      // Button 1
 #define BTN2 5						// Button 2
 
-#define DEBOUNCE 30
+#define DEBOUNCE 10
 
 #include <stdio.h>
 
@@ -28,7 +29,8 @@
 
 extern int num_samples;			// sets global number of samples
 extern int sampleDivider;
-extern uint8_t overflow;
+extern uint8_t overflow1;
+extern uint8_t overflow2;  
 
 // initialization helper functions
 void Initialize_SPI_Master();
