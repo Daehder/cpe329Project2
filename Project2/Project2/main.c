@@ -9,10 +9,6 @@
 #include "WaveGen.h"
 #include "arduinoUtil.h"
 
-int num_samples;			// sets global number of samples
-int overflow_100Hz = 200;		// set overflow value for 100Hz
-int overflow_100hz = 40;		// set overflow value for 500Hz
-
 int btn0 = 0;
 int btn1 = 0;
 int btn2 = 0;
@@ -89,9 +85,9 @@ ISR(TIMER2_COMPA_vect){
    
    if(btn2 >= DEBOUNCE) {
       if (!was2Pressed) {
-         PORTD |= (1<<LED3);
          cycleDuty();
       }
+	  PORTD |= (1<<LED3);
       btn2 = 0;
       was2Pressed = 1;
    }
