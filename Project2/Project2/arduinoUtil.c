@@ -11,11 +11,7 @@
 #define MOSI 3                      // PB pin 3
 #define SCK  5                      // PB pin 5
 #define SS   2                      // PB pin 2
-#define BTN0 7                      // Button 0 
-#define BTN1 6                      // Button 1 
-#define BTN2 5						// Button 2 
 #define LED2 2						// Debug LED at PD2
-#define DEBOUNCE 30
 
 int sampleDivider = 1;
 
