@@ -27,8 +27,8 @@ uint16_t nextWavePoint();
 void cycleDuty();
 
 extern uint16_t *Wave;
-extern _sampleNdx;
+extern int _sampleNdx;
 
-#define nextWavePointMacro() (Wave[(_sampleNdx = (_sampleNdx + 1) % num_samples])
+#define nextWavePointMacro() (Wave[(_sampleNdx = (_sampleNdx + 1) % num_samples)])
 
 #endif /* WaveGen_h */
