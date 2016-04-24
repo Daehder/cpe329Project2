@@ -49,19 +49,33 @@ void GPIO_Initialization(){
    sei();									// enable interrupts
 }
 
+char debounceBtn(int btnLoc) {
+   char ones=0, zeroes=0, i;
+   
+   for(i=0;i<9;i++){
+      if(PIND & 1 << btnLoc) // read pin == 1
+         ones++;
+      else // read pin == 0
+         zeroes++;
+      
+      _delay_ms(10);
+   }
+   return ones > zeroes;
+}
+
 // returns a true bool if a buttons is pressed
 uint8_t check_buttons(){
-   if (!(PIND & (1<<BTN0))){          // return 1 if button at pin7 is pressed
-		_delay_ms(DEBOUNCE);
+   if (debounceBtn(BTN0)){          // return 1 if button at pin7 is pressed       !(PIND & (1<<BTN0))
+//		_delay_ms(DEBOUNCE);
       return 1;
    }
-   else if(!(PIND & (1<<BTN1))){    // return 2 if button at pin6 is pressed
-		_delay_ms(DEBOUNCE);
+   else if(debounceBtn(BTN1)){    // return 2 if button at pin6 is pressed                  !(PIND & (1<<BTN1))
+//		_delay_ms(DEBOUNCE);
       return 2;
    }
-	else if(!(PIND & (1<<BTN2))){ 
+	else if(debounceBtn(BTN2)){                          !(PIND & (1<<BTN2))
       return 3;                     // return 3 if buttons at pin5 pressed
-	  _delay_ms(DEBOUNCE);
+//	  _delay_ms(DEBOUNCE);
 	}
 	else
 		return 0;
