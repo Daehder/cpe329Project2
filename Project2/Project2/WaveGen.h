@@ -19,7 +19,7 @@
 
 #include <stdio.h>
 #include <math.h>
-//#include "arduinoUtil.h"
+#include "arduinoUtil.h"
 
 void initWaves();
 void nextWave();
