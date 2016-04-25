@@ -1,8 +1,13 @@
+/*
+ * Students: Mytch Johnson and Erik Miller
+ * Class: CPE 329-07 w/ Dr. Oliver
+ * Project 2: Create a function generator
+ * Date: 4/20/2016
+ * Revision: 1
+ */
+
 #ifndef WaveGen_h
 #define WaveGen_h
-
-#define MAX_VOLTAGE 5 // Volts
-#define MIN_VOLTAGE 0 // Volts
 
 #include <stdio.h>
 #include <math.h>

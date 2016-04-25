@@ -1,7 +1,18 @@
+/*
+ * Students: Mytch Johnson and Erik Miller
+ * Class: CPE 329-07 w/ Dr. Oliver
+ * Project 2: Create a function generator
+ * Date: 4/20/2016
+ * Revision: 1
+ */
+
 #include "WaveGen.h"
 
 #define NUM_WAVES 4
-#define STANDARD_DUTY_CYCLE 50
+#define STANDARD_DUTY_CYCLE 50 // %
+
+#define MAX_VOLTAGE 5 // Volts
+#define MIN_VOLTAGE 0 // Volts
 
 void make_square_LUT();
 void make_triangle_LUT();

@@ -1,3 +1,11 @@
+/*
+ * Students: Mytch Johnson and Erik Miller
+ * Class: CPE 329-07 w/ Dr. Oliver
+ * Project 2: Create a function generator
+ * Date: 4/20/2016
+ * Revision: 1
+ */
+
 #include "arduinoUtil.h"
 
 #define LEVEL_100 4
