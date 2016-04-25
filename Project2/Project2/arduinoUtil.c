@@ -91,6 +91,20 @@ uint8_t check_buttons(){
    return btnPressed;
 }
 
+uint8_t check_switch(){
+	return (PIND & 1<<SW1);
+}
+
+uint16_t check_voltage(){
+	ADCSRA = 0xC7;        		// start conversion
+	_delay_us(260);				// ensure max sampling rate not exceeded
+	voltage = (ADC & 0x3FF)/4;  // read 10 bit voltage and convert to 8 bit (255)
+	if(voltage < 2)
+		return 1;
+	else 
+		return voltage;
+}
+
 // sends data to DAC over SPI data port
 void Transmit_SPI_Master(int Data) {
    PORTB &= ~(1 << SS);					//Assert slave select (active low)

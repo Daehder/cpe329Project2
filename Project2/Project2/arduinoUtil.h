@@ -50,6 +50,7 @@ extern int num_samples;			// sets global number of samples
 extern int sampleDivider;
 extern uint8_t overflow0;
 extern uint8_t overflow2;  
+extern uint16_t voltage; 
 
 // initialization helper functions
 void Initialize_SPI_Master();
@@ -63,6 +64,8 @@ void change_freq();
 void delay_us(uint16_t delay);
 void delay_ms(uint16_t delay);
 uint8_t check_buttons();
+uint8_t check_switch();
+uint16_t check_voltage();
 
 // Program 2 specific functions
 uint16_t volts_to_bits(double voltage);

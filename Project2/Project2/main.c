@@ -22,6 +22,7 @@ uint8_t LUT_address = 0;
 int num_samples;	// sets global number of samples
 uint8_t overflow0 = 1;	// set overflow value frequency change
 uint8_t overflow2 = 63;	// set overflow value for button checking
+uint16_t voltage = 0;
 
 int main(void)
 {
@@ -33,11 +34,21 @@ int main(void)
    // fill square, sawtooth, triangle, and sine wave LUTs
    initWaves();
    
+   PORTD |= (1<<LED3);		// indcates the system is ready
+   
    while (1){
-	   if(PIND & (1<<SW1))
-		PORTD |= (1<<LED2);
-		else
+	   if(check_voltage() <= 51)
+			PORTD |= (1<<LED2);
+		else if( check_voltage() > 51 && check_voltage() <= 102)
 			PORTD &= ~(1<<LED2);
+		else if( check_voltage() > 102 && check_voltage() <= 153)
+			PORTD |= (1<<LED2);
+		else if( check_voltage() > 153 && check_voltage() <= 204)
+			PORTD &= ~(1<<LED2);
+		else if( check_voltage() > 204 && check_voltage() <= 255)
+			PORTD |= (1<<LED2);
+		else
+			PORTD &= ~(1<<LED3);
 	   
 	  // if(check_buttons()==1)
 			//nextWave();
@@ -81,7 +92,7 @@ ISR(TIMER2_COMPA_vect){
    
    if(btn1 >= DEBOUNCE) {
       if (!was1Pressed) {
-         PORTD &= ~(1<<LED3);
+         //PORTD &= ~(1<<LED3);
          cycleFreq();
       }
       btn1 = 0;
@@ -92,7 +103,7 @@ ISR(TIMER2_COMPA_vect){
       if (!was2Pressed) {
          cycleDuty();
       }
-	  PORTD |= (1<<LED3);
+	  //PORTD |= (1<<LED3);
       btn2 = 0;
       was2Pressed = 1;
    }
