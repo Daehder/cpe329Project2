@@ -39,33 +39,38 @@ int main(void)
    
    // Stuck here forever
    while (1){
-      if(check_voltage() <= 51) {
-			PORTD |= (1<<LED2);
-         setFreq(LEVEL_100);
-      }
-      else if( check_voltage() > 51 && check_voltage() <= 102) {
-			PORTD &= ~(1<<LED2);
-         setFreq(LEVEL_200);
-      }
-      else if( check_voltage() > 102 && check_voltage() <= 153) {
-			PORTD |= (1<<LED2);
-         setFreq(LEVEL_300);
-      }
-      else if( check_voltage() > 153 && check_voltage() <= 204) {
-         PORTD &= ~(1<<LED2);
-         setFreq(LEVEL_400);
-      }
-      else if( check_voltage() > 204 && check_voltage() <= 255) {
-         PORTD |= (1<<LED2);
-         setFreq(LEVEL_500);
-      }
-		else
-			PORTD &= ~(1<<LED3);
-			
-		if(check_switch())
-			PORTD |= (1<<LED3);
-		else 
-			PORTD &= ~(1<<LED3);	
+//      if(check_switch()) {
+//			PORTD |= (1<<LED3);
+//         
+//         if(check_voltage() <= 51) {
+//            PORTD |= (1<<LED2);
+//            setFreq(LEVEL_100);
+//         }
+//         else if( check_voltage() > 51 && check_voltage() <= 102) {
+//            PORTD &= ~(1<<LED2);
+//            setFreq(LEVEL_200);
+//         }
+//         else if( check_voltage() > 102 && check_voltage() <= 153) {
+//            PORTD |= (1<<LED2);
+//            setFreq(LEVEL_300);
+//         }
+//         else if( check_voltage() > 153 && check_voltage() <= 204) {
+//            PORTD &= ~(1<<LED2);
+//            setFreq(LEVEL_400);
+//         }
+//         else if( check_voltage() > 204 && check_voltage() <= 255) {
+//            PORTD |= (1<<LED2);
+//            setFreq(LEVEL_500);
+//         }
+//         else
+//            PORTD &= ~(1<<LED3);
+//      }
+//      else {
+//			PORTD &= ~(1<<LED3);
+//         
+//         sampleDivider = 2;
+//         OCR0A = check_voltage();
+//      }
    }
    return 0;
 }
@@ -105,7 +110,13 @@ ISR(TIMER2_COMPA_vect){
    if(btn1 >= DEBOUNCE) {
       if (!was1Pressed) {
          //PORTD &= ~(1<<LED3);
-         cycleFreq();
+         //cycleFreq();
+         if (check_switch())
+            setFreq(check_voltage()/52);
+         else {
+            sampleDivider = 2;
+            OCR0A = check_voltage();
+         }
       }
       btn1 = 0;
       was1Pressed = 1;
