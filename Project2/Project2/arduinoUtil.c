@@ -54,7 +54,7 @@ void GPIO_Initialization(){
    initTimer0();							// initialize timer0
    initTimer2();
    Initialize_ADC0();
-   //sei();									// enable interrupts
+   sei();									// enable interrupts
 }
 
 char debounceBtn(int btnLoc) {
@@ -92,7 +92,14 @@ uint8_t check_buttons(){
 }
 
 uint8_t check_switch(){
-   return (PIND & 1<<SW1);
+   if(PIND & 1<<SW1){
+	   PORTD &= ~(1<<LED3);
+	   return 1;
+   }
+	else{
+		PORTD |= (1<<LED3);
+		return 0;
+	}
 }
 
 uint16_t check_voltage(){

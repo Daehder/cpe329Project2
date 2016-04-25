@@ -38,13 +38,13 @@
 #define OVERFLOW_200HZ 67 //done
 #define OVERFLOW_300HZ 90 // done
 #define OVERFLOW_400HZ 67 //done
-#define OVERFLOW_500HZ 10 //done
+#define OVERFLOW_500HZ 54 //done
 
-#define LEVEL_100 0
-#define LEVEL_200 1
+#define LEVEL_100 4
+#define LEVEL_200 3
 #define LEVEL_300 2
-#define LEVEL_400 3
-#define LEVEL_500 4
+#define LEVEL_400 1
+#define LEVEL_500 0
 
 #include <stdio.h>
 
