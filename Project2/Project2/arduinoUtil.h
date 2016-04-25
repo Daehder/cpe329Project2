@@ -1,13 +1,4 @@
-//
-//  arduinoUtil.h
-//  cpe329project2
-//
-//  Created by Erik Miller on 4/22/16.
-//
-//
-
 #ifndef arduinoUtil_h
-
 #define arduinoUtil_h
 
 // Hardware CPU clock speed
@@ -24,27 +15,16 @@
 
 // Input pin locations
 #define BTN0 7                      // Button 0
-#define BTN1 6                      // Button 1
-#define BTN2 5						// Button 2
-#define SW1 4						// switch 0
-#define POT0 0						// Potentiometer 
+#define BTN1 5                      // Button 1
+#define SW1 4                       // switch 0
+#define POT0 0                      // Potentiometer 
 
 // non changing values
-#define NUM_SAMPS 146
+#define NUM_SAMPLES 146
 #define DEBOUNCE 10
 
-// Standard frequency values needed for overflow
-#define OVERFLOW_100HZ 135 //done
-#define OVERFLOW_200HZ 67 //done
-#define OVERFLOW_300HZ 90 // done
-#define OVERFLOW_400HZ 67 //done
-#define OVERFLOW_500HZ 54 //done
 
-#define LEVEL_100 4
-#define LEVEL_200 3
-#define LEVEL_300 2
-#define LEVEL_400 1
-#define LEVEL_500 0
+#define BTN_OVERFLOW 63
 
 #include <stdio.h>
 
@@ -52,15 +32,11 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
-extern int num_samples;			// sets global number of samples
-extern int sampleDivider;
-extern uint8_t overflow0;
-extern uint8_t overflow2;  
-extern uint16_t voltage; 
+extern uint8_t sampleDivider;
 
 // initialization helper functions
 void Initialize_SPI_Master();
-void Transmit_SPI_Master(int Data);
+void Transmit_SPI_Master(uint8_t Data);
 void GPIO_Initialization();
 void initTimer0();
 void genorate_LUTs();
@@ -75,7 +51,7 @@ uint16_t check_voltage();
 
 // Program 2 specific functions
 uint16_t volts_to_bits(double voltage);
-void cycleFreq();
-void setFreq(int level);
+void setFreq(uint8_t level);
+void sweepFreq(uint8_t level);
 
 #endif /* arduinoUtil_h */

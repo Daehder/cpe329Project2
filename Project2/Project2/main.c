@@ -9,44 +9,33 @@
 #include "WaveGen.h"
 #include "arduinoUtil.h"
 
-int btn0 = 0;
-int btn1 = 0;
-int btn2 = 0;
-
-int was0Pressed = 0;
-int was1Pressed = 0;
-int was2Pressed = 0;
-
 // Global Variables
-uint8_t LUT_address = 0;
-int num_samples;	// sets global number of samples
-uint8_t overflow0 = OVERFLOW_100HZ;	// set overflow value frequency change
-uint8_t overflow2 = 63;	// set overflow value for button checking
+uint8_t btn0 = 0;
+uint8_t btn1 = 0;
+
+uint8_t was0Pressed = 0;
+uint8_t was1Pressed = 0;
+
 uint16_t voltage = 0;
 
 int main(void)
 {
-	num_samples = NUM_SAMPS;
-	
-   // initialize GPIO, interrupts, and timers
-   GPIO_Initialization();
+   GPIO_Initialization();  // initialize GPIO, interrupts, and timers
+   initWaves();            // fill square, sawtooth, triangle, and sine LUTs
    
-   // fill square, sawtooth, triangle, and sine wave LUTs
-   initWaves();
+   sei();									// enable interrupts
    
-   // indicator LED that system is ready
-   PORTD |= (1<<LED2);	
+   PORTD |= (1<<LED2);     // indicator LED that system is ready
    
    // Stuck here forever
    while (1){
-		if (check_switch())
-			setFreq(check_voltage()/52);
-	else {
-		sampleDivider = 2;
-		OCR0A = check_voltage();
-}
-
+      if (check_switch())              // If the switch is active,
+         setFreq(check_voltage());  //  step through the frequencies
+      else {                           // If the switch is not active,
+         sweepFreq(check_voltage());
+      }
    }
+   
    return 0;
 }
 
@@ -55,10 +44,9 @@ int main(void)
 // ISR to increment through wave function LUTs and set frequency
 ISR(TIMER0_COMPA_vect){
    Transmit_SPI_Master(nextWavePoint());
-   //PORTD |= (1<<LED2);
- 
 }
 
+// ISR to check the buttons
 ISR(TIMER2_COMPA_vect){
    if (!(PIND & 1 << BTN0))
       btn0++;
@@ -70,11 +58,6 @@ ISR(TIMER2_COMPA_vect){
    else
       btn1 = was1Pressed = 0;
    
-   if (!(PIND & 1 << BTN2))
-      btn2++;
-   else
-      btn2 = was2Pressed = 0;
-   
    if(btn0 >= DEBOUNCE) {
       if (!was0Pressed)
          nextWave();
@@ -82,25 +65,13 @@ ISR(TIMER2_COMPA_vect){
       was0Pressed = 1;
    }
    
-//   if(btn1 >= DEBOUNCE) {
-//      if (!was1Pressed) {
-//         //PORTD &= ~(1<<LED3);
-//         //cycleFreq();
-//
-//      }
-//      btn1 = 0;
-//      was1Pressed = 1;
-//   }
-   
-   
-   if(btn2 >= DEBOUNCE) {
-      if (!was2Pressed) {
+   if(btn1 >= DEBOUNCE) {
+      if (!was1Pressed) {
          cycleDuty();
       }
-	  //PORTD |= (1<<LED3);
-      btn2 = 0;
-      was2Pressed = 1;
+      //PORTD |= (1<<LED3);
+      btn1 = 0;
+      was1Pressed = 1;
    }
-  
+   
 }
-
