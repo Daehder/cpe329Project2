@@ -136,7 +136,6 @@ uint16_t volts_to_bits(double voltage){
 		return 4095;
 	else
 	 return bits;                  // return 12bit equivalent for DAC
-}
 
 void change_freq(){
 //	overflow -= 50;
@@ -174,4 +173,5 @@ void setFreq(int level) {
       overflow0 = OVERFLOW_500HZ;
    }
    OCR0A = overflow0;
+}
 }
