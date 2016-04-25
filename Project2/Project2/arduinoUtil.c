@@ -13,9 +13,9 @@ int sampleDivider = 1;
 // sets up SPI system between ATmega328P and slave device(s)
 void Initialize_ADC0(void)
 {
-	ADCSRA = 0x87;	//Turn On ADC and set prescaler (CLK/128)
-	ADCSRB = 0x00;	//turn off autotrigger
-	ADMUX = 0x00;    	//Set ADC channel ADC0
+   ADCSRA = 0x87;	//Turn On ADC and set prescaler (CLK/128)
+   ADCSRB = 0x00;	//turn off autotrigger
+   ADMUX = 0x00;    	//Set ADC channel ADC0
 }
 
 void Initialize_SPI_Master(){
@@ -36,11 +36,11 @@ void initTimer0(){
 }
 
 void initTimer2(){
-	TCCR2A = 0x02;                   // timer CTC mode
-	OCR2A = overflow2;		        // sets counter overflow
-	TCCR2B = 0x04;                   // timer clk = system clk / 256 (2MHz)
-	TIFR2 = 0x02;                    // Interrupt occurs at OCRF2A overflow
-	TIMSK2 = 0x02;                   // OCRF0A overflow interrupt enabled
+   TCCR2A = 0x02;                   // timer CTC mode
+   OCR2A = overflow2;		        // sets counter overflow
+   TCCR2B = 0x04;                   // timer clk = system clk / 256 (2MHz)
+   TIFR2 = 0x02;                    // Interrupt occurs at OCRF2A overflow
+   TIMSK2 = 0x02;                   // OCRF0A overflow interrupt enabled
 }
 
 
@@ -92,17 +92,17 @@ uint8_t check_buttons(){
 }
 
 uint8_t check_switch(){
-	return (PIND & 1<<SW1);
+   return (PIND & 1<<SW1);
 }
 
 uint16_t check_voltage(){
-	ADCSRA = 0xC7;        		// start conversion
-	_delay_us(260);				// ensure max sampling rate not exceeded
-	voltage = (ADC & 0x3FF)/4;  // read 10 bit voltage and convert to 8 bit (255)
-	if(voltage < 2)
-		return 1;
-	else 
-		return voltage;
+   ADCSRA = 0xC7;        		// start conversion
+   _delay_us(260);				// ensure max sampling rate not exceeded
+   voltage = (ADC & 0x3FF)/4;  // read 10 bit voltage and convert to 8 bit (255)
+   if(voltage < 2)
+      return 1;
+   else
+      return voltage;
 }
 
 // sends data to DAC over SPI data port
@@ -126,24 +126,24 @@ void delay_us(uint16_t delay){
 void delay_ms(uint16_t delay){
    while (delay--)
       _delay_ms(1);
-
+   
 }
 
 // converts input voltage between 0-5V to 12bit number for DAC
 uint16_t volts_to_bits(double voltage){
    double bits = ((voltage/5.0)*4095);
    if(bits>4095)
-		return 4095;
-	else
-	 return bits;                  // return 12bit equivalent for DAC
+      return 4095;
+   else
+      return bits;                  // return 12bit equivalent for DAC
 }
 
 void change_freq(){
-//	overflow -= 50;
-//	if(overflow<50)
-//		overflow = 200;
-//		
-//	OCR0A = overflow;          // sets counter overflow to 250
+   //	overflow -= 50;
+   //	if(overflow<50)
+   //		overflow = 200;
+   //
+   //	OCR0A = overflow;          // sets counter overflow to 250
    sampleDivider++;
    sampleDivider %= 3;
 }
