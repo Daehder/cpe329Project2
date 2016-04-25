@@ -38,7 +38,7 @@
 #define OVERFLOW_200HZ 67 //done
 #define OVERFLOW_300HZ 90 // done
 #define OVERFLOW_400HZ 67 //done
-#define OVERFLOW_500HZ 10 //done
+#define OVERFLOW_500HZ 50 //done
 
 #define LEVEL_100 0
 #define LEVEL_200 1
