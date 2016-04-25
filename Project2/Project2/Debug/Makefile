@@ -37,6 +37,7 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../arduinoUtil.c \
 ../main.c \
 ../WaveGen.c
 
@@ -48,18 +49,22 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+arduinoUtil.o \
 main.o \
 WaveGen.o
 
 OBJS_AS_ARGS +=  \
+arduinoUtil.o \
 main.o \
 WaveGen.o
 
 C_DEPS +=  \
+arduinoUtil.d \
 main.d \
 WaveGen.d
 
 C_DEPS_AS_ARGS +=  \
+arduinoUtil.d \
 main.d \
 WaveGen.d
 
@@ -77,6 +82,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

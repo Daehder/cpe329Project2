@@ -1,63 +1,129 @@
 /*
-Students: Mytch Johnson and Erik Miller
-Class: CPE 329-07 w/ Dr. Oliver
-Project 2: Create a function generator
-Date: 4/20/2016
-Revision: 1
-*/
-
-int num_samples =  50;			// sets global number of samples
-int overflow_100Hz = 200;		// set overflow value for 100Hz
-int overflow_100hz = 40;		// set overflow value for 500Hz
+ Students: Mytch Johnson and Erik Miller
+ Class: CPE 329-07 w/ Dr. Oliver
+ Project 2: Create a function generator
+ Date: 4/20/2016
+ Revision: 1
+ */
 
 #include "WaveGen.h"
 #include "arduinoUtil.h"
 
+int btn0 = 0;
+int btn1 = 0;
+int btn2 = 0;
+
+int was0Pressed = 0;
+int was1Pressed = 0;
+int was2Pressed = 0;
+
 // Global Variables
 uint8_t LUT_address = 0;
-uint16_t square_wave[NUM_SAMPLES];
-uint16_t sawtooth_wave[NUM_SAMPLES];
-uint16_t triangle_wave[NUM_SAMPLES];
-uint16_t sin_wave[NUM_SAMPLES];
+int num_samples;	// sets global number of samples
+uint8_t overflow0 = OVERFLOW_100HZ;	// set overflow value frequency change
+uint8_t overflow2 = 63;	// set overflow value for button checking
+uint16_t voltage = 0;
 
 int main(void)
-{	
-	// initialize GPIO, interupts, and timers
-	GPIO_Initialization();
+{
+	num_samples = NUM_SAMPS;
 	
-	// fill square, sawtooth, triangle, and sine wave LUTs
-	genorate_LUTs();
-	
-	// stay here forever
-    while(1){
-		// send square wave data to DAC
-		Transmit_SPI_Master(square_wave[LUT_address]);
-		while(!(check_buttons()));
-		// send sawtooth wave data to DAC
-		Transmit_SPI_Master(sawtooth_wave[LUT_address]);
-		while(!(check_buttons()));
-		// send triangle wave data to DAC
-		//Transmit_SPI_Master([LUT_address]);
-		while(!(check_buttons()));
-		// send sine wave data to DAC
-		//Transmit_SPI_Master(LUT_address[LUT_address]);
-		while(!(check_buttons()));			
-	}
-    return 0;
-}
-
-// fills all the lookup tables for every wave
-void genorate_LUTs(){
-	
+   // initialize GPIO, interrupts, and timers
+   GPIO_Initialization();
+   
+   // fill square, sawtooth, triangle, and sine wave LUTs
+   initWaves();
+   
+   // enable interrupts
+   sei();		
+   
+   // Stuck here forever
+   while (1){
+      if(check_switch()) {
+			PORTD |= (1<<LED3);
+         
+         if(check_voltage() <= 51) {
+            PORTD |= (1<<LED2);
+            setFreq(LEVEL_100);
+         }
+         else if( check_voltage() > 51 && check_voltage() <= 102) {
+            PORTD &= ~(1<<LED2);
+            setFreq(LEVEL_200);
+         }
+         else if( check_voltage() > 102 && check_voltage() <= 153) {
+            PORTD |= (1<<LED2);
+            setFreq(LEVEL_300);
+         }
+         else if( check_voltage() > 153 && check_voltage() <= 204) {
+            PORTD &= ~(1<<LED2);
+            setFreq(LEVEL_400);
+         }
+         else if( check_voltage() > 204 && check_voltage() <= 255) {
+            PORTD |= (1<<LED2);
+            setFreq(LEVEL_500);
+         }
+         else
+            PORTD &= ~(1<<LED3);
+      }
+      else {
+			PORTD &= ~(1<<LED3);
+         
+         sampleDivider = 2;
+         OCR0A = check_voltage();
+      }
+   }
+   return 0;
 }
 
 ///////////////////////////////////ISR/////////////////////////////////////////
 
-// ISR to incrament through wave function LUTs and set frequency 
+// ISR to increment through wave function LUTs and set frequency
 ISR(TIMER0_COMPA_vect){
-	static uint8_t ISR_repeat=0;
-	
-	if((ISR_repeat = !ISR_repeat))
-		// increment wave LUT value
-		LUT_address++;
+   Transmit_SPI_Master(nextWavePoint());
+   //PORTD |= (1<<LED2);
+ 
 }
+
+ISR(TIMER2_COMPA_vect){
+   if (!(PIND & 1 << BTN0))
+      btn0++;
+   else
+      btn0 = was0Pressed = 0;
+   
+   if (!(PIND & 1 << BTN1))
+      btn1++;
+   else
+      btn1 = was1Pressed = 0;
+   
+   if (!(PIND & 1 << BTN2))
+      btn2++;
+   else
+      btn2 = was2Pressed = 0;
+   
+   if(btn0 >= DEBOUNCE) {
+      if (!was0Pressed)
+         nextWave();
+      btn0 = 0;
+      was0Pressed = 1;
+   }
+   
+   if(btn1 >= DEBOUNCE) {
+      if (!was1Pressed) {
+         //PORTD &= ~(1<<LED3);
+         cycleFreq();
+      }
+      btn1 = 0;
+      was1Pressed = 1;
+   }
+   
+   if(btn2 >= DEBOUNCE) {
+      if (!was2Pressed) {
+         cycleDuty();
+      }
+	  //PORTD |= (1<<LED3);
+      btn2 = 0;
+      was2Pressed = 1;
+   }
+  
+}
+
