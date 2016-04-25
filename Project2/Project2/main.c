@@ -61,11 +61,11 @@ int main(void)
       }
 		else
 			PORTD &= ~(1<<LED3);
-	   
-	  // if(check_buttons()==1)
-			//nextWave();
-		//else if(check_buttons()==2)
-		//	change_freq();
+			
+		if(check_switch())
+			PORTD |= (1<<LED3);
+		else 
+			PORTD &= ~(1<<LED3);	
    }
    return 0;
 }
