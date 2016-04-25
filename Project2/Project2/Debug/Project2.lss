@@ -463,8 +463,8 @@ int main(void)
  278:	30 f4       	brcc	.+12     	; 0x286 <main+0x2a>
 			PORTD |= (1<<LED2);
  27a:	5a 9a       	sbi	0x0b, 2	; 11
-         setFreq(LEVEL_100);
- 27c:	80 e0       	ldi	r24, 0x00	; 0
+         setFreq(LEVEL_500);
+ 27c:	84 e0       	ldi	r24, 0x04	; 4
  27e:	90 e0       	ldi	r25, 0x00	; 0
  280:	0e 94 ef 00 	call	0x1de	; 0x1de <setFreq>
  284:	41 c0       	rjmp	.+130    	; 0x308 <main+0xac>
@@ -479,8 +479,8 @@ int main(void)
  296:	30 f4       	brcc	.+12     	; 0x2a4 <main+0x48>
 			PORTD &= ~(1<<LED2);
  298:	5a 98       	cbi	0x0b, 2	; 11
-         setFreq(LEVEL_200);
- 29a:	81 e0       	ldi	r24, 0x01	; 1
+         setFreq(LEVEL_400);
+ 29a:	83 e0       	ldi	r24, 0x03	; 3
  29c:	90 e0       	ldi	r25, 0x00	; 0
  29e:	0e 94 ef 00 	call	0x1de	; 0x1de <setFreq>
  2a2:	32 c0       	rjmp	.+100    	; 0x308 <main+0xac>
@@ -513,8 +513,8 @@ int main(void)
  2d6:	30 f4       	brcc	.+12     	; 0x2e4 <main+0x88>
          PORTD &= ~(1<<LED2);
  2d8:	5a 98       	cbi	0x0b, 2	; 11
-         setFreq(LEVEL_400);
- 2da:	83 e0       	ldi	r24, 0x03	; 3
+         setFreq(LEVEL_200);
+ 2da:	81 e0       	ldi	r24, 0x01	; 1
  2dc:	90 e0       	ldi	r25, 0x00	; 0
  2de:	0e 94 ef 00 	call	0x1de	; 0x1de <setFreq>
  2e2:	12 c0       	rjmp	.+36     	; 0x308 <main+0xac>
@@ -531,8 +531,8 @@ int main(void)
  2f8:	30 f4       	brcc	.+12     	; 0x306 <main+0xaa>
          PORTD |= (1<<LED2);
  2fa:	5a 9a       	sbi	0x0b, 2	; 11
-         setFreq(LEVEL_500);
- 2fc:	84 e0       	ldi	r24, 0x04	; 4
+         setFreq(LEVEL_100);
+ 2fc:	80 e0       	ldi	r24, 0x00	; 0
  2fe:	90 e0       	ldi	r25, 0x00	; 0
  300:	0e 94 ef 00 	call	0x1de	; 0x1de <setFreq>
  304:	01 c0       	rjmp	.+2      	; 0x308 <main+0xac>

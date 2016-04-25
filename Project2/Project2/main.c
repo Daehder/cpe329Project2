@@ -41,11 +41,11 @@ int main(void)
    while (1){
       if(check_voltage() <= 51) {
 			PORTD |= (1<<LED2);
-         setFreq(LEVEL_100);
+         setFreq(LEVEL_500);
       }
       else if( check_voltage() > 51 && check_voltage() <= 102) {
 			PORTD &= ~(1<<LED2);
-         setFreq(LEVEL_200);
+         setFreq(LEVEL_400);
       }
       else if( check_voltage() > 102 && check_voltage() <= 153) {
 			PORTD |= (1<<LED2);
@@ -53,11 +53,11 @@ int main(void)
       }
       else if( check_voltage() > 153 && check_voltage() <= 204) {
          PORTD &= ~(1<<LED2);
-         setFreq(LEVEL_400);
+         setFreq(LEVEL_200);
       }
       else if( check_voltage() > 204 && check_voltage() <= 255) {
          PORTD |= (1<<LED2);
-         setFreq(LEVEL_500);
+         setFreq(LEVEL_100);
       }
 		else
 			PORTD &= ~(1<<LED3);
