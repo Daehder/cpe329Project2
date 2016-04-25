@@ -55,10 +55,9 @@ void GPIO_Initialization(){
    DDRB |= (1<<MOSI) | (1<<SCK)
          | (1<<SS);                 // make MOSI, SCK and SS outputs
    DDRD &= ~(1<<BTN1) | ~(1<<BTN1)
-         | ~(1<<BTN2) | ~(1<<SW1);  // set buttons & switches as inputs
+         | ~(1<<SW1);               // set buttons & switches as inputs
    DDRD |= (1<<LED2) | (1<<LED3);	// debug LEDs are output
-   PORTD |= (1<<BTN0) | (1<<BTN1)
-         | (1<<BTN2);               // set internal pull-ups
+   PORTD |= (1<<BTN0) | (1<<BTN1);               // set internal pull-ups
    
    Initialize_SPI_Master();			// initialize SPI to DAC
    initTimer0();
@@ -91,7 +90,7 @@ uint16_t check_voltage(){
 // sends data to DAC over SPI data port
 void Transmit_SPI_Master(uint8_t Data) {
    PORTB &= ~(1 << SS);					// Assert slave select (active low)
-   SPDR = ((Data >> 8) & 0xF)       // Put top 4 bits onto SPDR
+   SPDR = ((Data >> 8) & 0xF);      // Put top 4 bits onto SPDR
    SPDR |= 0x70;                    // Attach configuration bits onto MSB
    
    while (!(SPSR & (1<<SPIF)))

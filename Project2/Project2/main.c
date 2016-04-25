@@ -18,8 +18,7 @@ uint8_t was1Pressed = 0;
 
 uint16_t voltage = 0;
 
-int main(void)
-{
+int main() {
    GPIO_Initialization();  // initialize GPIO, interrupts, and timers
    initWaves();            // fill square, sawtooth, triangle, and sine LUTs
    

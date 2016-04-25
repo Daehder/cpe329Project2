@@ -36,22 +36,22 @@ extern uint8_t sampleDivider;
 
 // initialization helper functions
 void Initialize_SPI_Master();
-void Transmit_SPI_Master(uint8_t Data);
+void Transmit_SPI_Master(uint8_t);
 void GPIO_Initialization();
 void initTimer0();
 void genorate_LUTs();
 void change_freq();
 
 // general helper functions
-void delay_us(uint16_t delay);
-void delay_ms(uint16_t delay);
+void delay_us(uint16_t);
+void delay_ms(uint16_t);
 uint8_t check_buttons();
 uint8_t check_switch();
 uint16_t check_voltage();
 
 // Program 2 specific functions
-uint16_t volts_to_bits(double voltage);
-void setFreq(uint8_t level);
-void sweepFreq(uint8_t level);
+uint16_t volts_to_bits(double);
+void setFreq(uint8_t);
+void sweepFreq(uint8_t);
 
 #endif /* arduinoUtil_h */
