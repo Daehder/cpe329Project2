@@ -107,19 +107,21 @@ ISR(TIMER2_COMPA_vect){
       was0Pressed = 1;
    }
    
-   if(btn1 >= DEBOUNCE) {
-      if (!was1Pressed) {
-         //PORTD &= ~(1<<LED3);
-         //cycleFreq();
-         if (check_switch())
-            setFreq(check_voltage()/52);
-         else {
-            sampleDivider = 2;
-            OCR0A = check_voltage();
-         }
-      }
-      btn1 = 0;
-      was1Pressed = 1;
+//   if(btn1 >= DEBOUNCE) {
+//      if (!was1Pressed) {
+//         //PORTD &= ~(1<<LED3);
+//         //cycleFreq();
+//
+//      }
+//      btn1 = 0;
+//      was1Pressed = 1;
+//   }
+   
+   if (check_switch())
+      setFreq(check_voltage()/52);
+   else {
+      sampleDivider = 2;
+      OCR0A = check_voltage();
    }
    
    if(btn2 >= DEBOUNCE) {
