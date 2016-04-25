@@ -71,6 +71,14 @@ int main(void)
 //         sampleDivider = 2;
 //         OCR0A = check_voltage();
 //      }
+
+if (check_switch())
+setFreq(check_voltage()/52);
+else {
+	sampleDivider = 2;
+	OCR0A = check_voltage();
+}
+
    }
    return 0;
 }
@@ -117,12 +125,6 @@ ISR(TIMER2_COMPA_vect){
 //      was1Pressed = 1;
 //   }
    
-   if (check_switch())
-      setFreq(check_voltage()/52);
-   else {
-      sampleDivider = 2;
-      OCR0A = check_voltage();
-   }
    
    if(btn2 >= DEBOUNCE) {
       if (!was2Pressed) {
