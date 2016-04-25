@@ -149,25 +149,29 @@ void change_freq(){
 }
 
 void cycleFreq() {
-   if (overflow0 == OVERFLOW_100HZ){
+   
+}
+
+void setFreq(int level) {
+   if (level == LEVEL_100){
+      sampleDivider = 1;
+      overflow0 = OVERFLOW_100HZ;
+   }
+   else if (level == LEVEL_200) {
       sampleDivider = 1;
       overflow0 = OVERFLOW_200HZ;
    }
-   else if (overflow0 == OVERFLOW_200HZ) {
+   else if (level == LEVEL_300) {
       sampleDivider = 2;
       overflow0 = OVERFLOW_300HZ;
    }
-   else if (overflow0 == OVERFLOW_300HZ) {
+   else if (level == LEVEL_400) {
       sampleDivider = 2;
       overflow0 = OVERFLOW_400HZ;
    }
-   else if (overflow0 == OVERFLOW_400HZ) {
+   else{
       sampleDivider = 2;
       overflow0 = OVERFLOW_500HZ;
-   }
-   else{
-      sampleDivider = 1;
-      overflow0 = OVERFLOW_100HZ;
    }
    OCR0A = overflow0;
 }

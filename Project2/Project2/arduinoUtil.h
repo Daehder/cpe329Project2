@@ -40,6 +40,12 @@
 #define OVERFLOW_400HZ 67 //done
 #define OVERFLOW_500HZ 10 //done
 
+#define LEVEL_100 0
+#define LEVEL_200 1
+#define LEVEL_300 2
+#define LEVEL_400 3
+#define LEVEL_500 4
+
 #include <stdio.h>
 
 #include <avr/io.h>
@@ -70,5 +76,6 @@ uint16_t check_voltage();
 // Program 2 specific functions
 uint16_t volts_to_bits(double voltage);
 void cycleFreq();
+void setFreq(int level);
 
 #endif /* arduinoUtil_h */
