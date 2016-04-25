@@ -54,7 +54,7 @@ void GPIO_Initialization(){
    initTimer0();							// initialize timer0
    initTimer2();
    Initialize_ADC0();
-   sei();									// enable interrupts
+   //sei();									// enable interrupts
 }
 
 char debounceBtn(int btnLoc) {

@@ -34,8 +34,10 @@ int main(void)
    // fill square, sawtooth, triangle, and sine wave LUTs
    initWaves();
    
-   PORTD |= (1<<LED3);		// indcates the system is ready
+   // enable interrupts
+   sei();		
    
+   // Stuck here forever
    while (1){
       if(check_voltage() <= 51) {
 			PORTD |= (1<<LED2);
