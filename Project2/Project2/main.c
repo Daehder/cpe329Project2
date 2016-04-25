@@ -20,7 +20,7 @@ int was2Pressed = 0;
 // Global Variables
 uint8_t LUT_address = 0;
 int num_samples;	// sets global number of samples
-uint8_t overflow0 = 1;	// set overflow value frequency change
+uint8_t overflow0 = OVERFLOW_100HZ;	// set overflow value frequency change
 uint8_t overflow2 = 63;	// set overflow value for button checking
 uint16_t voltage = 0;
 
@@ -34,8 +34,10 @@ int main(void)
    // fill square, sawtooth, triangle, and sine wave LUTs
    initWaves();
    
-   PORTD |= (1<<LED3);		// indcates the system is ready
+   // enable interrupts
+   sei();		
    
+   // Stuck here forever
    while (1){
 	   if(check_voltage() <= 51)
 			PORTD |= (1<<LED2);
@@ -47,13 +49,11 @@ int main(void)
 			PORTD &= ~(1<<LED2);
 		else if( check_voltage() > 204 && check_voltage() <= 255)
 			PORTD |= (1<<LED2);
-		else
-			PORTD &= ~(1<<LED3);
-	   
-	  // if(check_buttons()==1)
-			//nextWave();
-		//else if(check_buttons()==2)
-		//	change_freq();
+			
+		if(check_switch())
+			PORTD |= (1<<LED3);
+		else 
+			PORTD &= ~(1<<LED3);	
    }
    return 0;
 }
