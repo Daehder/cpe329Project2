@@ -1,38 +1,21 @@
-//
-//  WaveGen.c
-//  cpe329project2
-//
-//  Created by Erik Miller on 4/20/16.
-//
-//
-
 #include "WaveGen.h"
 
 #define NUM_WAVES 4
+#define STANDARD_DUTY_CYCLE 50
 
 void make_square_LUT();
 void make_triangle_LUT();
 void make_sawtooth_LUT();
 void make_sin_LUT();
 
-int dutyCycle = 50;  // The Duty cycle of the square wave in percentage,
-                     //  must be between 0 and 100
-int _sampleNdx = -1;
+uint8_t dutyCycle = STANDARD_DUTY_CYCLE;
 
-uint16_t SquareWave[NUM_SAMPS];
-uint16_t TriWave[NUM_SAMPS];
-uint16_t SawWave[NUM_SAMPS];
-uint16_t SinWave[NUM_SAMPS];
+uint16_t SquareWave[NUM_SAMPLES];
+uint16_t TriWave[NUM_SAMPLES];
+uint16_t SawWave[NUM_SAMPLES];
+uint16_t SinWave[NUM_SAMPLES];
 
 uint16_t *Wave;
-
-//uint16_t volts_to_bits(double voltage){
-//   double bits = ((voltage/5.0)*4095);
-//   if(bits>4095)
-//      return 4095;
-//   else
-//      return bits;                  // return 12bit equivalent for DAC
-//}
 
 void initWaves() {
    make_square_LUT();
@@ -44,7 +27,7 @@ void initWaves() {
 }
 
 void nextWave() {
-   static int waveNdx = 0;
+   static uint8_t waveNdx = 0;
    static uint16_t* waves[NUM_WAVES] = {SquareWave, TriWave, SawWave, SinWave};
    
    waveNdx++;
@@ -54,10 +37,10 @@ void nextWave() {
 }
 
 uint16_t nextWavePoint() {
-   static int ndx = -1;
+   static uint8_t ndx = -1;
    
    ndx += sampleDivider;
-   ndx %= NUM_SAMPS;
+   ndx %= NUM_SAMPLES;
    
    return Wave[ndx];
 }
@@ -69,46 +52,46 @@ void cycleDuty() {
 }
 
 void make_square_LUT(){
-   int i;
-   int duty = num_samples * (double) dutyCycle/100;
+   uint8_t i;
+   uint8_t duty = NUM_SAMPLES * (double) dutyCycle/100;
    
    for (i = 0; i < duty; i++)
       SquareWave[i] = volts_to_bits(MAX_VOLTAGE);
    
-   for ( ; i < num_samples ; i++)
+   for ( ; i < NUM_SAMPLES ; i++)
       SquareWave[i] = volts_to_bits(MIN_VOLTAGE);
 }
 
 void make_triangle_LUT(){
-   int i;
-   int peak = num_samples / 2;
+   uint8_t i;
+   uint8_t peak = NUM_SAMPLES / 2;
    double increment = ((double) MAX_VOLTAGE - MIN_VOLTAGE) / peak;
    double voltage = MIN_VOLTAGE - increment;
    
    for (i = 0; i < (peak + 1); i++)
       TriWave[i] = volts_to_bits(voltage += increment);
    
-   for ( ; i < (num_samples - 1); i++)
+   for ( ; i < (NUM_SAMPLES - 1); i++)
       TriWave[i] = volts_to_bits(voltage -= increment);
 }
 
 void make_sawtooth_LUT(){
-   int ndx;
-   double increment = ((double) MAX_VOLTAGE - MIN_VOLTAGE) / (num_samples - 1);
-   double voltage = MIN_VOLTAGE -increment;
+   uint8_t ndx;
+   double increment = ((double) MAX_VOLTAGE - MIN_VOLTAGE) / (NUM_SAMPLES - 1);
+   double voltage = MIN_VOLTAGE - increment;
    
-   for (ndx = 0; ndx < num_samples; ndx++)
+   for (ndx = 0; ndx < NUM_SAMPLES; ndx++)
       SawWave[ndx] = volts_to_bits(voltage += increment);
 }
 
 void make_sin_LUT(){
-   int ndx;
-   double increment = 2 * M_PI / num_samples;
+   uint8_t ndx;
+   double increment = 2 * M_PI / NUM_SAMPLES;
    double rad = -increment;
    double ampli = ((double) MAX_VOLTAGE - MIN_VOLTAGE) / 2;
    // The amplitude/2 is neccessary to compensate for sin()'s amplitude of 2
    double offset = MIN_VOLTAGE + ampli;
    
-   for (ndx = 0; ndx < num_samples; ndx++)
+   for (ndx = 0; ndx < NUM_SAMPLES; ndx++)
       SinWave[ndx] = volts_to_bits(ampli * sin(rad += increment) + offset);
 }
