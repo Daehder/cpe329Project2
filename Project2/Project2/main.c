@@ -47,6 +47,7 @@ ISR(TIMER0_COMPA_vect){
 
 // ISR to check the buttons
 ISR(TIMER2_COMPA_vect){
+   // Button Debounce
    if (!(PIND & 1 << BTN0))
       btn0++;
    else
@@ -57,6 +58,7 @@ ISR(TIMER2_COMPA_vect){
    else
       btn1 = was1Pressed = 0;
    
+   // If a button has been pressed, cycle to next wave or duty
    if(btn0 >= DEBOUNCE) {
       if (!was0Pressed)
          nextWave();
@@ -68,7 +70,6 @@ ISR(TIMER2_COMPA_vect){
       if (!was1Pressed) {
          cycleDuty();
       }
-      //PORTD |= (1<<LED3);
       btn1 = 0;
       was1Pressed = 1;
    }
